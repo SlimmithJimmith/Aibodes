@@ -1,10 +1,10 @@
-# Aidobes - PropertySwipe 🏠💕
+# Aibodes - PropertySwipe 🏠💕
 
 A cross-platform real estate app with Tinder-like swiping functionality built with Flutter. Match buyers with sellers through an intuitive swipe interface.
 
-## About Aidobes
+## About Aibodes
 
-Aidobes is a tech startup focused on revolutionizing the real estate industry through innovative mobile applications. Our flagship product, PropertySwipe, combines the familiar Tinder swiping experience with property browsing to create a more engaging and efficient way to find your dream home.
+Aibodes is a tech startup focused on revolutionizing the real estate industry through innovative mobile applications. Our flagship product, PropertySwipe, combines the familiar Tinder swiping experience with property browsing to create a more engaging and efficient way to find your dream home.
 
 ## Features ✨
 
@@ -42,8 +42,8 @@ The app includes:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/SlimmithJimmith/Aidobes.git
-   cd Aidobes
+   git clone https://github.com/SlimmithJimmith/Aibodes.git
+   cd Aibodes
    ```
 
 2. **Install dependencies**
