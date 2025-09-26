@@ -46,6 +46,10 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>© 2024 Aibodes. All rights reserved. Proprietary License.</string>
+	<string>© 2025 Aibodes. All rights reserved. Proprietary License.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs location access to show nearby properties on the map.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs location access to show nearby properties on the map.</string>
 </dict>
 </plist>

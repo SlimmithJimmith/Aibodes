@@ -415,65 +415,84 @@ class _MapScreenState extends State<MapScreen> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          // Google Map
-          GoogleMap(
-            initialCameraPosition: _initialPosition,
-            onMapCreated: (GoogleMapController controller) {
-              _mapController = controller;
-              _mapsService.initializeMapController(controller);
-            },
-            markers: _markers,
-            circles: _searchRadiusCircle != null ? {_searchRadiusCircle!} : {},
-            onTap: (LatLng position) {
-              // Clear selection when tapping on empty map
-              setState(() {
-                _selectedPropertyId = '';
-              });
-            },
-            myLocationEnabled: true,
-            myLocationButtonEnabled: false,
-            mapToolbarEnabled: false,
-            zoomControlsEnabled: false,
+      body: _buildMapContent(),
+    );
+  }
+
+  /// Builds the map content with error handling
+  Widget _buildMapContent() {
+    return Stack(
+      children: [
+        // Try to show Google Map, fallback to simple list if it fails
+        _buildGoogleMap(),
+        
+        // Loading indicator
+        if (_isLoading)
+          const Center(
+            child: CircularProgressIndicator(),
           ),
-          
-          // Loading indicator
-          if (_isLoading)
-            const Center(
-              child: CircularProgressIndicator(),
-            ),
-          
-          // Map controls
-          Positioned(
-            top: 16,
-            right: 16,
-            child: Column(
-              children: [
-                FloatingActionButton.small(
-                  onPressed: _centerOnCurrentLocation,
-                  backgroundColor: Colors.white,
-                  child: const Icon(Icons.my_location, color: Colors.blue),
-                ),
-                const SizedBox(height: 8),
-                FloatingActionButton.small(
-                  onPressed: _fitAllMarkers,
-                  backgroundColor: Colors.white,
-                  child: const Icon(Icons.fit_screen, color: Colors.blue),
+        
+        // Map controls
+        Positioned(
+          top: 16,
+          right: 16,
+          child: Column(
+            children: [
+              FloatingActionButton.small(
+                onPressed: _centerOnCurrentLocation,
+                backgroundColor: Colors.white,
+                child: const Icon(Icons.my_location, color: Colors.blue),
+              ),
+              const SizedBox(height: 8),
+              FloatingActionButton.small(
+                onPressed: _fitAllMarkers,
+                backgroundColor: Colors.white,
+                child: const Icon(Icons.fit_screen, color: Colors.blue),
+              ),
+            ],
+          ),
+        ),
+        
+        // Property count indicator
+        Positioned(
+          bottom: 16,
+          left: 16,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
+            child: Text(
+              _markers.isEmpty 
+                ? 'No properties with coordinates'
+                : '${_markers.length} properties',
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
           ),
-          
-          // Property count indicator
+        ),
+        
+        // No properties message
+        if (_markers.isEmpty && !_isLoading)
           Positioned(
-            bottom: 16,
+            top: 100,
             left: 16,
+            right: 16,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
@@ -482,66 +501,140 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ],
               ),
-              child: Text(
-                _markers.isEmpty 
-                  ? 'No properties with coordinates'
-                  : '${_markers.length} properties',
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.location_off,
+                    size: 48,
+                    color: Colors.grey[400],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'No Properties Available',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Properties need coordinates to appear on the map',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
           ),
-          
-          // No properties message
-          if (_markers.isEmpty && !_isLoading)
-            Positioned(
-              top: 100,
-              left: 16,
-              right: 16,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+      ],
+    );
+  }
+
+  /// Builds the Google Map widget with fallback
+  Widget _buildGoogleMap() {
+    try {
+      return GoogleMap(
+        initialCameraPosition: _initialPosition,
+        onMapCreated: (GoogleMapController controller) {
+          _mapController = controller;
+          _mapsService.initializeMapController(controller);
+        },
+        markers: _markers,
+        circles: _searchRadiusCircle != null ? {_searchRadiusCircle!} : {},
+        onTap: (LatLng position) {
+          // Clear selection when tapping on empty map
+          setState(() {
+            _selectedPropertyId = '';
+          });
+        },
+        myLocationEnabled: true,
+        myLocationButtonEnabled: false,
+        mapToolbarEnabled: false,
+        zoomControlsEnabled: false,
+      );
+    } catch (e) {
+      // Fallback to property list if Google Maps fails
+      return _buildPropertyListFallback();
+    }
+  }
+
+  /// Fallback widget when Google Maps is not available
+  Widget _buildPropertyListFallback() {
+    final appProvider = Provider.of<AppProvider>(context, listen: false);
+    final properties = appProvider.availableProperties;
+    
+    return Container(
+      color: Colors.grey[100],
+      child: Column(
+        children: [
+          // Header
+          Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.white,
+            child: Row(
+              children: [
+                Icon(Icons.map, color: Colors.grey[600]),
+                const SizedBox(width: 8),
+                Text(
+                  'Property Locations',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[800],
+                  ),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.location_off,
-                      size: 48,
-                      color: Colors.grey[400],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'No Properties Available',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Properties need coordinates to appear on the map',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
+              ],
             ),
+          ),
+          
+          // Property list
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: properties.length,
+              itemBuilder: (context, index) {
+                final property = properties[index];
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      child: Text(
+                        '${index + 1}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      property.title,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(property.location),
+                        Text(
+                          property.formattedPrice,
+                          style: TextStyle(
+                            color: Colors.green[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () => _onMarkerTapped(property),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

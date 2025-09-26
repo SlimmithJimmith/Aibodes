@@ -487,7 +487,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				COPYRIGHT = "© 2024 Aibodes. All rights reserved. Proprietary License.";
+				COPYRIGHT = "© 2025 Aibodes. All rights reserved. Proprietary License.";
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -673,7 +673,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				COPYRIGHT = "© 2024 Aibodes. All rights reserved. Proprietary License.";
+				COPYRIGHT = "© 2025 Aibodes. All rights reserved. Proprietary License.";
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -696,7 +696,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				COPYRIGHT = "© 2024 Aibodes. All rights reserved. Proprietary License.";
+				COPYRIGHT = "© 2025 Aibodes. All rights reserved. Proprietary License.";
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
