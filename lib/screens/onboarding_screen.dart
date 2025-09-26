@@ -131,7 +131,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   child: Column(
                     children: [
                       Text(
-                        'Aibodes',
+                        'Äïbodes',
                         style: GoogleFonts.dancingScript(
                           fontSize: 48,
                           fontWeight: FontWeight.bold,
@@ -170,37 +170,41 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                 const SizedBox(height: 60),
 
-                // Buyer and Seller Buttons - Stacked Layout
+                // Buyer and Seller Buttons - Side by Side Layout
                 SlideTransition(
                   position: _slideAnimation,
-                  child: Column(
+                  child: Row(
                     children: [
-                      // Buyer Button - Top
-                      _buildNeonButton(
-                        title: 'Buyer',
-                        subtitle: 'Find Your Dream Home',
-                        color: const Color(0xFF00BFFF),
-                        icon: Icons.home,
-                        onTap: () => _navigateToBuyerFlow(),
-                        isLarge: true,
+                      // Buyer Button - Left
+                      Expanded(
+                        child: _buildNeonButton(
+                          title: 'Buyer',
+                          subtitle: 'Find Your Dream Home',
+                          color: const Color(0xFF00BFFF),
+                          icon: Icons.home,
+                          onTap: () => _navigateToBuyerFlow(),
+                          isLarge: true,
+                        ),
                       ),
                       
-                      const SizedBox(height: 30),
+                      const SizedBox(width: 20),
                       
-                      // Seller Button - Bottom
-                      _buildNeonButton(
-                        title: 'Seller',
-                        subtitle: 'List Your Property',
-                        color: const Color(0xFF00FF7F),
-                        icon: Icons.sell,
-                        onTap: () => _navigateToSellerFlow(),
-                        isLarge: true,
+                      // Seller Button - Right
+                      Expanded(
+                        child: _buildNeonButton(
+                          title: 'Seller',
+                          subtitle: 'List Your Property',
+                          color: const Color(0xFF00FF7F),
+                          icon: Icons.sell,
+                          onTap: () => _navigateToSellerFlow(),
+                          isLarge: true,
+                        ),
                       ),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 60),
 
                 // Subtle hint text
                 FadeTransition(

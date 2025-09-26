@@ -100,6 +100,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What should we call you?",
           subtitle: "Let's start with your first name",
           fieldName: "firstName",
+          displayName: "first name",
           inputType: TextInputType.name,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -115,6 +116,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "And your last name?",
           subtitle: "What's your family name?",
           fieldName: "lastName",
+          displayName: "last name",
           inputType: TextInputType.name,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -130,6 +132,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "How old are you?",
           subtitle: "This helps us find age-appropriate properties",
           fieldName: "age",
+          displayName: "age",
           inputType: TextInputType.number,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -146,6 +149,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What's your email?",
           subtitle: "We'll use this to send you property updates",
           fieldName: "email",
+          displayName: "email",
           inputType: TextInputType.emailAddress,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -161,6 +165,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What's your gender?",
           subtitle: "This helps us personalize your experience",
           fieldName: "gender",
+          displayName: "gender",
           inputType: null,
           isDropdown: true,
           dropdownOptions: ['Male', 'Female', 'Other', 'Prefer not to say'],
@@ -169,6 +174,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What's your marital status?",
           subtitle: "This helps us understand your housing needs",
           fieldName: "maritalStatus",
+          displayName: "marital status",
           inputType: null,
           isDropdown: true,
           dropdownOptions: ['Single', 'Married', 'Divorced', 'Widowed'],
@@ -177,6 +183,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What's your annual income?",
           subtitle: "This helps us find properties in your budget",
           fieldName: "income",
+          displayName: "annual income",
           inputType: TextInputType.number,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -193,6 +200,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What do you do for work?",
           subtitle: "Tell us about your occupation",
           fieldName: "occupation",
+          displayName: "occupation",
           inputType: TextInputType.text,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -208,6 +216,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What should we call you?",
           subtitle: "Let's start with your first name",
           fieldName: "firstName",
+          displayName: "first name",
           inputType: TextInputType.name,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -223,6 +232,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "And your last name?",
           subtitle: "What's your family name?",
           fieldName: "lastName",
+          displayName: "last name",
           inputType: TextInputType.name,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -238,6 +248,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What's your email?",
           subtitle: "We'll use this to connect you with buyers",
           fieldName: "email",
+          displayName: "email",
           inputType: TextInputType.emailAddress,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -253,6 +264,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What's your phone number?",
           subtitle: "Buyers will contact you directly",
           fieldName: "phone",
+          displayName: "phone number",
           inputType: TextInputType.phone,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -268,6 +280,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What type of property do you have?",
           subtitle: "Select the category that best describes your property",
           fieldName: "propertyType",
+          displayName: "property type",
           inputType: null,
           isDropdown: true,
           dropdownOptions: ['House', 'Apartment', 'Condo', 'Townhouse', 'Land', 'Commercial'],
@@ -276,6 +289,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What's your property's address?",
           subtitle: "Where is your property located?",
           fieldName: "propertyAddress",
+          displayName: "property address",
           inputType: TextInputType.streetAddress,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -288,13 +302,14 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "What's your asking price?",
           subtitle: "How much are you looking to sell for?",
           fieldName: "askingPrice",
+          displayName: "asking price",
           inputType: TextInputType.number,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your asking price';
             }
             final price = int.tryParse(value);
-            if (price == null || price < 0) {
+            if (price == null || price < 0 || price > 1000000000) {
               return 'Please enter a valid price';
             }
             return null;
@@ -304,6 +319,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           title: "Tell us about your property",
           subtitle: "Describe what makes your property special",
           fieldName: "propertyDescription",
+          displayName: "property description",
           inputType: TextInputType.multiline,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -534,7 +550,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
             ),
             hintText: step.inputType == TextInputType.multiline 
                 ? 'Describe your property...' 
-                : 'Enter your ${step.fieldName}',
+                : 'Enter your ${step.displayName}',
             hintStyle: GoogleFonts.quicksand(
               color: Colors.white38,
               fontSize: 16,
@@ -587,7 +603,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
             horizontal: 20,
             vertical: 20,
           ),
-          hintText: 'Select ${step.fieldName}',
+          hintText: 'Select ${step.displayName}',
           hintStyle: GoogleFonts.quicksand(
             color: Colors.white38,
             fontSize: 16,
@@ -725,17 +741,17 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
 
   void _completeOnboarding() {
     // TODO: Save user data and navigate to main app
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Welcome to Aibodes!',
-          style: GoogleFonts.quicksand(),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Welcome to Äïbodes!',
+            style: GoogleFonts.quicksand(),
+          ),
+          backgroundColor: widget.isBuyer 
+              ? const Color(0xFF00BFFF) 
+              : const Color(0xFF00FF7F),
         ),
-        backgroundColor: widget.isBuyer 
-            ? const Color(0xFF00BFFF) 
-            : const Color(0xFF00FF7F),
-      ),
-    );
+      );
     
     Navigator.pushReplacementNamed(context, '/main');
   }
@@ -748,6 +764,7 @@ class OnboardingStep {
   final String title;
   final String subtitle;
   final String fieldName;
+  final String displayName;
   final TextInputType? inputType;
   final String? Function(String?)? validator;
   final bool isDropdown;
@@ -757,6 +774,7 @@ class OnboardingStep {
     required this.title,
     required this.subtitle,
     required this.fieldName,
+    required this.displayName,
     this.inputType,
     this.validator,
     this.isDropdown = false,

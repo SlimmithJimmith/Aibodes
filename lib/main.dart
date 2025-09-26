@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
       create: (context) => AppProvider(),
       child: MaterialApp(
         // App title displayed in system UI
-        title: 'Aibodes',
+        title: 'Äïbodes',
         
         // Global theme configuration for consistent styling
         theme: ThemeData(

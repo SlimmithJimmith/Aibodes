@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          'Aibodes',
+          'Äïbodes',
           style: GoogleFonts.dancingScript(
             fontWeight: FontWeight.bold,
             fontSize: 28,
