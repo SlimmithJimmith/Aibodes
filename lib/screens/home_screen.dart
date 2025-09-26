@@ -98,13 +98,20 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             tooltip: 'Property Map',
           ),
-          IconButton(
-            icon: const Icon(Icons.calculate),
-            onPressed: () {
-              Navigator.pushNamed(context, '/mortgage-calculator');
-            },
-            tooltip: 'Mortgage Calculator',
-          ),
+        IconButton(
+          icon: const Icon(Icons.calculate),
+          onPressed: () {
+            Navigator.pushNamed(context, '/mortgage-calculator');
+          },
+          tooltip: 'Mortgage Calculator',
+        ),
+        IconButton(
+          icon: const Icon(Icons.star),
+          onPressed: () {
+            Navigator.pushNamed(context, '/premium-features');
+          },
+          tooltip: 'Premium Features',
+        ),
           IconButton(
             icon: const Icon(Icons.people),
             onPressed: () {
