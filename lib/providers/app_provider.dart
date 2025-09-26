@@ -1,110 +1,281 @@
+// Import Flutter's material design components
 import 'package:flutter/material.dart';
+// Import our custom models
 import '../models/property.dart';
 import '../models/user.dart';
 import '../models/match.dart';
+// Import custom widgets
 import '../widgets/swipeable_property_stack.dart';
 
+/**
+ * AppProvider class for managing global application state
+ * 
+ * This class extends ChangeNotifier to provide reactive state management
+ * for the entire PropertySwipe application. It manages:
+ * - Available properties for swiping
+ * - User interactions (swiped, liked, viewed properties)
+ * - Match creation and management
+ * - Current user profile data
+ * - Loading states
+ * 
+ * The provider pattern allows any widget in the app to access and modify
+ * the app state by listening to changes and updating the UI accordingly.
+ * 
+ * @author PropertySwipe Team
+ * @version 1.0.0
+ */
 class AppProvider extends ChangeNotifier {
+  /// List of properties available for swiping (not yet interacted with)
   List<Property> _availableProperties = [];
+  
+  /// List of properties the user has swiped (both left and right)
   List<Property> _swipedProperties = [];
+  
+  /// List of properties the user has liked (swiped right)
   List<Property> _likedProperties = [];
+  
+  /// List of properties the user has viewed (tapped for details)
   List<Property> _viewedProperties = [];
+  
+  /// List of all matches created from user interactions
   List<Match> _matches = [];
+  
+  /// Current logged-in user (null if not logged in)
   User? _currentUser;
+  
+  /// Loading state indicator for async operations
   bool _isLoading = false;
 
-  // Getters
+  // ==================== GETTERS ====================
+  
+  /**
+   * Getter for available properties list
+   * @return List of properties available for swiping
+   */
   List<Property> get availableProperties => _availableProperties;
+  
+  /**
+   * Getter for swiped properties list
+   * @return List of properties the user has swiped
+   */
   List<Property> get swipedProperties => _swipedProperties;
+  
+  /**
+   * Getter for liked properties list
+   * @return List of properties the user has liked
+   */
   List<Property> get likedProperties => _likedProperties;
+  
+  /**
+   * Getter for viewed properties list
+   * @return List of properties the user has viewed
+   */
   List<Property> get viewedProperties => _viewedProperties;
+  
+  /**
+   * Getter for matches list
+   * @return List of all matches
+   */
   List<Match> get matches => _matches;
+  
+  /**
+   * Getter for current user
+   * @return Current user instance or null if not logged in
+   */
   User? get currentUser => _currentUser;
+  
+  /**
+   * Getter for loading state
+   * @return True if app is currently loading, false otherwise
+   */
   bool get isLoading => _isLoading;
 
-  // Initialize with sample data
+  // ==================== INITIALIZATION ====================
+  
+  /**
+   * Initializes the app with sample data
+   * 
+   * This method sets up the app with:
+   * - A sample user account
+   * - Sample properties for swiping
+   * - Loading state management
+   * 
+   * In a production app, this would typically:
+   * - Load user data from local storage or API
+   * - Fetch properties from a backend service
+   * - Handle authentication state
+   */
   void initializeApp() {
+    // Set loading state to true and notify listeners
     _isLoading = true;
     notifyListeners();
 
-    // Create sample user
+    // Create a sample user for demonstration purposes
     _currentUser = User(
-      id: 'user_1',
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john@example.com',
-      type: UserType.buyer,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      isVerified: true,
+      id: 'user_1',                    // Unique user ID
+      firstName: 'John',               // First name
+      lastName: 'Doe',                 // Last name
+      email: 'john@example.com',       // Email address
+      type: UserType.buyer,            // User type (buyer)
+      createdAt: DateTime.now(),       // Account creation time
+      updatedAt: DateTime.now(),       // Last update time
+      isVerified: true,                // Account verification status
     );
 
-    // Create sample properties
+    // Generate and load sample properties
     _availableProperties = _generateSampleProperties();
     
+    // Set loading state to false and notify listeners
     _isLoading = false;
     notifyListeners();
   }
 
+  // ==================== USER INTERACTIONS ====================
+  
+  /**
+   * Handles property swiping interactions
+   * 
+   * This method processes when a user swipes left (pass) or right (like) on a property:
+   * - Removes property from available list
+   * - Adds to swiped properties list
+   * - If swiped right, adds to liked properties and creates a match
+   * - Prevents duplicate swipes on the same property
+   * 
+   * @param property The property being swiped
+   * @param direction The swipe direction (left = pass, right = like)
+   */
   void swipeProperty(Property property, SwipeDirection direction) {
+    // Prevent duplicate swipes on the same property
     if (_swipedProperties.contains(property)) return;
 
+    // Move property from available to swiped list
     _swipedProperties.add(property);
     _availableProperties.remove(property);
 
+    // If user liked the property (swiped right)
     if (direction == SwipeDirection.right) {
-      // User liked the property - save it and create a potential match
+      // Add to liked properties list for later viewing
       _likedProperties.add(property);
+      
+      // Create a potential match with the seller
       _createMatch(property);
     }
 
+    // Notify all listening widgets of the state change
     notifyListeners();
   }
 
+  /**
+   * Tracks when a user views property details
+   * 
+   * This method adds a property to the viewed properties list
+   * when the user taps on it to see more details. This helps
+   * track user engagement and can be used for analytics.
+   * 
+   * @param property The property being viewed
+   */
   void viewProperty(Property property) {
+    // Only add if not already viewed to prevent duplicates
     if (!_viewedProperties.contains(property)) {
       _viewedProperties.add(property);
+      
+      // Notify all listening widgets of the state change
       notifyListeners();
     }
   }
 
+  // ==================== USER MANAGEMENT ====================
+  
+  /**
+   * Updates the current user's profile information
+   * 
+   * This method updates the current user with new profile data
+   * and notifies listeners of the change. In a production app,
+   * this would typically make an API call to persist the changes.
+   * 
+   * @param updatedUser The updated user object with new information
+   */
   Future<void> updateUser(User updatedUser) async {
+    // Update the current user reference
     _currentUser = updatedUser;
+    
+    // Notify all listening widgets of the state change
     notifyListeners();
-    // In a real app, this would make an API call to save the user data
+    
+    // TODO: In a real app, this would make an API call to save the user data
+    // Example: await userService.updateUser(updatedUser);
   }
 
+  // ==================== MATCH MANAGEMENT ====================
+  
+  /**
+   * Creates a new match when a user likes a property
+   * 
+   * This private method is called internally when a user swipes right
+   * on a property. It creates a match record that can be used for
+   * seller notifications and match management.
+   * 
+   * @param property The property that was liked
+   */
   void _createMatch(Property property) {
-    // In a real app, this would make an API call
+    // TODO: In a real app, this would make an API call to create the match
+    // on the backend and potentially notify the seller
+    
     final match = Match(
-      id: 'match_${DateTime.now().millisecondsSinceEpoch}',
-      buyerId: _currentUser!.id,
-      sellerId: property.sellerId,
-      propertyId: property.id,
-      matchedAt: DateTime.now(),
-      status: MatchStatus.pending,
+      id: 'match_${DateTime.now().millisecondsSinceEpoch}',  // Unique match ID
+      buyerId: _currentUser!.id,                             // Current user's ID
+      sellerId: property.sellerId,                           // Property owner's ID
+      propertyId: property.id,                               // Property ID
+      matchedAt: DateTime.now(),                             // Match creation time
+      status: MatchStatus.pending,                           // Initial status
     );
 
+    // Add the new match to the matches list
     _matches.add(match);
   }
 
+  /**
+   * Removes a match from the matches list
+   * 
+   * This method is used when a user wants to remove a match,
+   * such as when they no longer want to be connected to a seller.
+   * 
+   * @param match The match to remove
+   */
   void removeMatch(Match match) {
+    // Remove the match from the list
     _matches.remove(match);
+    
+    // Notify all listening widgets of the state change
     notifyListeners();
   }
 
+  /**
+   * Updates the status of an existing match
+   * 
+   * This method allows changing the match status (pending, accepted, declined, expired).
+   * It's typically used when a seller responds to a buyer's interest.
+   * 
+   * @param match The match to update
+   * @param status The new status for the match
+   */
   void updateMatchStatus(Match match, MatchStatus status) {
+    // Find the match in the list by ID
     final index = _matches.indexWhere((m) => m.id == match.id);
+    
     if (index != -1) {
+      // Create a new match object with the updated status
       _matches[index] = Match(
-        id: match.id,
-        buyerId: match.buyerId,
-        sellerId: match.sellerId,
-        propertyId: match.propertyId,
-        matchedAt: match.matchedAt,
-        status: status,
-        message: match.message,
+        id: match.id,                    // Keep same ID
+        buyerId: match.buyerId,          // Keep same buyer ID
+        sellerId: match.sellerId,        // Keep same seller ID
+        propertyId: match.propertyId,    // Keep same property ID
+        matchedAt: match.matchedAt,      // Keep same match time
+        status: status,                  // Update the status
+        message: match.message,          // Keep same message
       );
+      
+      // Notify all listening widgets of the state change
       notifyListeners();
     }
   }
