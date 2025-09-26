@@ -6,7 +6,7 @@
  * - Match metadata (timestamp, status, message)
  * - Match lifecycle management (pending, accepted, declined, expired)
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 class Match {
@@ -123,7 +123,7 @@ class Match {
  * - declined: Seller declined the buyer's interest
  * - expired: Match expired due to time limit or other conditions
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 enum MatchStatus {
@@ -147,7 +147,7 @@ enum MatchStatus {
  * - Converting enum values to human-readable display names
  * - Future extensibility for additional match status functionality
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 extension MatchStatusExtension on MatchStatus {

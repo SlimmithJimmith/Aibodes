@@ -1,5 +1,5 @@
 /**
- * User model class representing a PropertySwipe app user
+ * User model class representing an Aibodes app user
  * 
  * This class stores all user-related information including:
  * - Personal details (name, email, phone, address)
@@ -7,7 +7,7 @@
  * - Account metadata (creation date, verification status)
  * - User type (buyer, seller, or both)
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 class User {
@@ -215,14 +215,14 @@ class User {
 }
 
 /**
- * Enumeration representing different types of users in the PropertySwipe app
+ * Enumeration representing different types of users in the Aibodes app
  * 
  * This enum defines the three possible user types:
  * - buyer: User who is looking to purchase properties
  * - seller: User who is looking to sell properties  
  * - both: User who can both buy and sell properties
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 enum UserType {
@@ -243,7 +243,7 @@ enum UserType {
  * - Converting enum values to human-readable display names
  * - Future extensibility for additional user type functionality
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 extension UserTypeExtension on UserType {

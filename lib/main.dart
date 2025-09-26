@@ -10,7 +10,7 @@ import 'screens/matches_screen.dart';
 import 'screens/profile_screen.dart';
 
 /**
- * Main entry point of the PropertySwipe application
+ * Main entry point of the Aibodes application
  * This function initializes and runs the Flutter app
  */
 void main() {
@@ -19,14 +19,14 @@ void main() {
 }
 
 /**
- * Root widget of the PropertySwipe application
+ * Root widget of the Aibodes application
  * 
  * This class sets up the overall app structure including:
  * - Global state management using Provider
  * - App theme and styling
  * - Navigation structure
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 class MyApp extends StatelessWidget {
@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
  * - Matches: View saved/liked properties (MatchesScreen)  
  * - Profile: User profile and settings (ProfileScreen)
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 class MainScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 # Flutter Setup Guide 🚀
 
-This guide will help you set up Flutter on your system to run the PropertySwipe app.
+This guide will help you set up Flutter on your system to run the Aibodes app.
 
 ## Prerequisites
 

@@ -7,7 +7,7 @@
  * - Media (images, property type)
  * - Metadata (seller, creation date, availability)
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 class Property {
@@ -219,7 +219,7 @@ class Property {
  * - studio: Single-room living space
  * - loft: Open-plan living space, often converted
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 enum PropertyType {
@@ -249,7 +249,7 @@ enum PropertyType {
  * - Converting enum values to human-readable display names
  * - Future extensibility for additional property type functionality
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 extension PropertyTypeExtension on PropertyType {

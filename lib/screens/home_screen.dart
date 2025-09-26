@@ -14,7 +14,7 @@ import 'matches_screen.dart';
 /**
  * HomeScreen widget - The main swiping interface for property discovery
  * 
- * This screen provides the primary user interface for the PropertySwipe app:
+ * This screen provides the primary user interface for the Aibodes app:
  * - Displays available properties in a swipeable stack
  * - Shows user welcome message and property count
  * - Provides navigation to other app sections
@@ -23,7 +23,7 @@ import 'matches_screen.dart';
  * 
  * The screen automatically initializes the app with sample data when first loaded.
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 class HomeScreen extends StatefulWidget {

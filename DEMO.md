@@ -1,10 +1,10 @@
-# PropertySwipe Demo Guide 🎬
+# Aibodes Demo Guide 🎬
 
-This guide will walk you through the key features of the PropertySwipe app.
+This guide will walk you through the key features of the Aibodes app.
 
 ## App Overview
 
-PropertySwipe is a real estate app that combines the familiar Tinder swiping interface with property browsing. Users can swipe through properties, like the ones they're interested in, and get matched with sellers.
+Aibodes is a real estate app that combines the familiar Tinder swiping interface with property browsing. Users can swipe through properties, like the ones they're interested in, and get matched with sellers.
 
 ## Key Features Demo
 

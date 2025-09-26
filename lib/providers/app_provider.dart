@@ -11,7 +11,7 @@ import '../widgets/swipeable_property_stack.dart';
  * AppProvider class for managing global application state
  * 
  * This class extends ChangeNotifier to provide reactive state management
- * for the entire PropertySwipe application. It manages:
+ * for the entire Aibodes application. It manages:
  * - Available properties for swiping
  * - User interactions (swiped, liked, viewed properties)
  * - Match creation and management
@@ -21,7 +21,7 @@ import '../widgets/swipeable_property_stack.dart';
  * The provider pattern allows any widget in the app to access and modify
  * the app state by listening to changes and updating the UI accordingly.
  * 
- * @author PropertySwipe Team
+ * @author Aibodes Team
  * @version 1.0.0
  */
 class AppProvider extends ChangeNotifier {
