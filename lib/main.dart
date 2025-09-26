@@ -7,6 +7,7 @@ import 'providers/app_provider.dart';
 // Import models for navigation
 import 'models/property.dart';
 // Import our custom screens
+import 'screens/splash_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/matches_screen.dart';
@@ -114,8 +115,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         
-        // Set OnboardingScreen as the home widget (first screen shown)
-        home: const OnboardingScreen(),
+        // Set SplashScreen as the home widget (first screen shown)
+        home: const SplashScreen(),
         
         // Route definitions for navigation
             routes: {
