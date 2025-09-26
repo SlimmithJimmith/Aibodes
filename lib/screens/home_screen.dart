@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../providers/app_provider.dart';
 import '../widgets/swipeable_property_stack.dart';
 import 'property_detail_screen.dart';
+import 'profile_screen.dart';
+import 'matches_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,6 +38,28 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         actions: [
           IconButton(
+            icon: const Icon(Icons.people),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MatchesScreen(),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfileScreen(),
+                ),
+              );
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
               context.read<AppProvider>().resetApp();
@@ -62,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       radius: 20,
                       backgroundColor: Colors.blue[100],
                       child: Text(
-                        appProvider.currentUser?.name.substring(0, 1) ?? 'U',
+                        appProvider.currentUser?.firstName.substring(0, 1) ?? 'U',
                         style: TextStyle(
                           color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
@@ -74,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Welcome back, ${appProvider.currentUser?.name ?? 'User'}!',
+                          'Welcome back, ${appProvider.currentUser?.firstName ?? 'User'}!',
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -102,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _showSwipeFeedback(direction);
                   },
                   onTap: (property) {
+                    appProvider.viewProperty(property);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -20,6 +20,13 @@ class PropertyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onPanEnd: (details) {
+        if (details.velocity.pixelsPerSecond.dx > 500) {
+          onSwipeRight?.call();
+        } else if (details.velocity.pixelsPerSecond.dx < -500) {
+          onSwipeLeft?.call();
+        }
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(

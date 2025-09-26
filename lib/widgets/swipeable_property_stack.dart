@@ -42,6 +42,14 @@ class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
     }
   }
 
+  void _handleSwipeLeft() {
+    _onSwipe(SwipeDirection.left);
+  }
+
+  void _handleSwipeRight() {
+    _onSwipe(SwipeDirection.right);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.properties.isEmpty) {
@@ -71,6 +79,8 @@ class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
                 widget.onTap!(widget.properties[index]);
               }
             },
+            onSwipeLeft: _handleSwipeLeft,
+            onSwipeRight: _handleSwipeRight,
           );
         },
         scrollDirection: Axis.horizontal,
@@ -78,9 +88,6 @@ class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
         scale: 0.8,
         viewportFraction: 0.9,
         physics: const BouncingScrollPhysics(),
-        onSwipe: (index, direction) {
-          _onSwipe(direction);
-        },
       ),
     );
   }
