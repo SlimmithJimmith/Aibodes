@@ -9,17 +9,25 @@ Aidobes is a tech startup focused on revolutionizing the real estate industry th
 ## Features ✨
 
 - **Swipe Interface**: Tinder-like swiping to like or pass on properties
+- **Profile System**: Complete user profiles with photo upload from iPhone gallery
+- **Editable Profile**: First name, last name, email, phone, address fields
+- **Match Saving**: Swipe right to automatically save properties you like
+- **20+ Properties**: Diverse real estate listings across major US cities
+- **3-Tab Navigation**: Discover, Matches, and Profile screens
+- **Activity Tracking**: View your liked, viewed, and matched property counts
 - **Property Details**: Detailed property information with photos and descriptions
-- **Matching System**: Get matched with sellers when you like their properties
 - **Modern UI**: Beautiful, responsive design with smooth animations
 - **Cross-Platform**: Works on both iOS and Android
+- **iPhone Optimized**: Fully functional on iPhone 15 Pro Max
 
 ## Screenshots 📱
 
 The app includes:
-- **Home Screen**: Swipe through available properties
-- **Matches Screen**: View your property matches
+- **Discover Tab**: Swipe through 20+ available properties
+- **Matches Tab**: View all your saved/liked properties with details
+- **Profile Tab**: Edit your profile, upload photos, view activity stats
 - **Property Details**: Detailed view of individual properties
+- **Profile Editor**: Complete profile management with photo upload
 
 ## Getting Started 🚀
 
@@ -71,29 +79,40 @@ lib/
 - **SwipeablePropertyStack**: Stack of swipeable property cards
 
 ### Screens
-- **HomeScreen**: Main swiping interface
-- **MatchesScreen**: View and manage matches
+- **HomeScreen**: Main swiping interface with 3-tab navigation
+- **MatchesScreen**: View all your saved/liked properties
+- **ProfileScreen**: Display user profile and activity stats
+- **ProfileEditScreen**: Edit profile with photo upload functionality
 - **PropertyDetailScreen**: Detailed property information
 
 ## Features in Detail 🎯
 
 ### Swiping Functionality
-- Swipe right to like a property
+- Swipe right to like and save a property
 - Swipe left to pass on a property
 - Visual feedback for swipe actions
-- Automatic matching when both parties like
+- Automatic saving of liked properties to Matches tab
+- Track viewed properties for activity stats
 
 ### Property Information
-- High-quality property images
-- Detailed property specifications
+- 20+ diverse properties across major US cities
+- High-quality property images from Unsplash
+- Detailed property specifications (bedrooms, bathrooms, area)
 - Location and pricing information
-- Property type classification
+- Property type classification (house, condo, apartment, etc.)
 
-### Matching System
-- Real-time match notifications
-- Match status tracking
-- Contact seller functionality
-- Match history
+### Profile System
+- Complete user profile with photo upload from iPhone gallery
+- Editable fields: first name, last name, email, phone, address
+- Activity tracking: liked, viewed, and matched property counts
+- Beautiful profile display with user stats
+- Profile editing with validation and error handling
+
+### Match Saving System
+- Automatic saving of liked properties
+- Dedicated Matches tab to view all saved properties
+- Property details accessible from saved properties
+- Activity statistics and user engagement tracking
 
 ## Dependencies 📦
 
@@ -103,18 +122,43 @@ lib/
 - `shared_preferences`: For local data persistence
 - `http`: For API communication
 - `flutter_staggered_animations`: For smooth animations
+- `image_picker`: For profile photo upload from iPhone gallery
+- `path_provider`: For file system access
+
+## Property Listings 🏠
+
+The app includes 20+ diverse properties across major US cities:
+
+- **Beachfront Villa** (Malibu, CA) - $2.5M
+- **Urban Loft** (SoHo, NY) - $380K
+- **Mountain Cabin** (Aspen, CO) - $420K
+- **Historic Brownstone** (Brooklyn Heights, NY) - $850K
+- **Modern Condo** (Chicago, IL) - $520K
+- **Garden Apartment** (Portland, OR) - $320K
+- **Luxury Townhouse** (Georgetown, DC) - $950K
+- **Minimalist Studio** (Seattle, WA) - $240K
+- **Ranch Style Home** (Austin, TX) - $480K
+- **Waterfront Condo** (Miami, FL) - $1.8M
+- **Victorian House** (San Francisco, CA) - $720K
+- **Modern Apartment** (Denver, CO) - $410K
+- **Penthouse Suite** (Las Vegas, NV) - $2.2M
+- **Cottage Style Home** (Charleston, SC) - $380K
+- **Contemporary Loft** (Minneapolis, MN) - $550K
+- **+ 5 more diverse properties**
 
 ## Future Enhancements 🚀
 
-- [ ] User authentication and profiles
+- [x] User authentication and profiles ✅
+- [x] Property favoriting system ✅
 - [ ] Real-time chat between buyers and sellers
 - [ ] Advanced filtering and search
 - [ ] Push notifications for matches
-- [ ] Property favoriting system
 - [ ] Map integration for property locations
 - [ ] Virtual property tours
 - [ ] Payment integration
 - [ ] Social sharing features
+- [ ] Backend API integration
+- [ ] User registration and login
 
 ## Contributing 🤝
 
