@@ -52,6 +52,13 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
     _initializeAnimations();
     _initializeSteps();
     _startAnimations();
+    
+    // Add listener to text controller to update button state
+    _textController.addListener(() {
+      setState(() {
+        // This will trigger a rebuild and update the button state
+      });
+    });
   }
 
   void _initializeAnimations() {
@@ -644,8 +651,17 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
 
   Widget _buildContinueButton() {
     final isLastStep = _currentStep == _steps.length - 1;
-    final canContinue = _formData[_steps[_currentStep].fieldName] != null &&
-                       _formData[_steps[_currentStep].fieldName].toString().isNotEmpty;
+    final currentStepData = _steps[_currentStep];
+    
+    // Check if we can continue based on the current step type
+    bool canContinue = false;
+    if (currentStepData.isDropdown) {
+      canContinue = _formData[currentStepData.fieldName] != null &&
+                   _formData[currentStepData.fieldName].toString().isNotEmpty;
+    } else {
+      // For text fields, check if the text controller has content
+      canContinue = _textController.text.trim().isNotEmpty;
+    }
     
     return Container(
       width: double.infinity,
@@ -653,16 +669,19 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: LinearGradient(
-          colors: [
+          colors: canContinue ? [
             widget.isBuyer 
                 ? const Color(0xFF00BFFF) 
                 : const Color(0xFF00FF7F),
             widget.isBuyer 
                 ? const Color(0xFF0080FF) 
                 : const Color(0xFF00CC66),
+          ] : [
+            Colors.grey.withOpacity(0.3),
+            Colors.grey.withOpacity(0.2),
           ],
         ),
-        boxShadow: [
+        boxShadow: canContinue ? [
           BoxShadow(
             color: (widget.isBuyer 
                 ? const Color(0xFF00BFFF) 
@@ -670,7 +689,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
             blurRadius: 20,
             spreadRadius: 2,
           ),
-        ],
+        ] : [],
       ),
       child: Material(
         color: Colors.transparent,
@@ -683,7 +702,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
               style: GoogleFonts.quicksand(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: canContinue ? Colors.white : Colors.grey,
                 letterSpacing: 0.5,
               ),
             ),
