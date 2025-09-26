@@ -173,7 +173,7 @@ class _MortgageCalculatorScreenState extends State<MortgageCalculatorScreen>
       monthlyPayment: monthlyPayment,
       monthlyPropertyTax: monthlyPropertyTax,
       monthlyInsurance: monthlyInsurance,
-      monthlyPMI: monthlyPMI,
+      monthlyPMI: monthlyPMI.toDouble(),
       monthlyHOA: _hoaFees,
       totalMonthlyPayment: totalMonthlyPayment,
       totalInterest: totalInterest,

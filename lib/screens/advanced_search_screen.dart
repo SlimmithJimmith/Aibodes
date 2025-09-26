@@ -96,22 +96,18 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen> {
    * Initialize search with default values
    */
   void _initializeSearch() {
-    final appProvider = Provider.of<AppProvider>(context, listen: false);
-    final user = appProvider.currentUser;
+    // Initialize with default values since User model doesn't have preferences yet
+    _selectedLocation = 'New York, NY';
+    _minPrice = 100000;
+    _maxPrice = 1000000;
+    _minBedrooms = 1;
+    _minBathrooms = 1;
+    _selectedPropertyTypes = [PropertyType.house, PropertyType.apartment];
+    _maxDistance = 10;
     
-    if (user != null && user.preferences != null) {
-      _selectedLocation = user.preferences!.location;
-      _minPrice = user.preferences!.priceRange.min;
-      _maxPrice = user.preferences!.priceRange.max;
-      _minBedrooms = user.preferences!.bedrooms;
-      _minBathrooms = user.preferences!.bathrooms;
-      _selectedPropertyTypes = List.from(user.preferences!.propertyTypes);
-      _maxDistance = user.preferences!.maxDistance.toInt();
-      
-      _locationController.text = _selectedLocation;
-      _minPriceController.text = _minPrice.toString();
-      _maxPriceController.text = _maxPrice.toString();
-    }
+    _locationController.text = _selectedLocation;
+    _minPriceController.text = _minPrice.toString();
+    _maxPriceController.text = _maxPrice.toString();
   }
 
   @override

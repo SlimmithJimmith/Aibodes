@@ -307,6 +307,10 @@ class MapsService {
         return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
       case PropertyType.apartment:
         return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow);
+      case PropertyType.studio:
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan);
+      case PropertyType.loft:
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta);
       case PropertyType.land:
         return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
       case PropertyType.commercial:

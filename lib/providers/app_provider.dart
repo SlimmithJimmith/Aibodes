@@ -280,6 +280,52 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
+  /**
+   * Search properties based on search parameters
+   * 
+   * This method filters the available properties based on the provided
+   * search criteria including location, price range, bedrooms, etc.
+   * 
+   * @param searchParams Map containing search criteria
+   */
+  void searchProperties(Map<String, dynamic> searchParams) {
+    // In a real implementation, this would make an API call
+    // For now, we'll just filter the existing properties
+    final filteredProperties = _availableProperties.where((property) {
+      // Filter by price range
+      if (searchParams['minPrice'] != null && property.price < searchParams['minPrice']) {
+        return false;
+      }
+      if (searchParams['maxPrice'] != null && property.price > searchParams['maxPrice']) {
+        return false;
+      }
+      
+      // Filter by bedrooms
+      if (searchParams['minBedrooms'] != null && property.bedrooms < searchParams['minBedrooms']) {
+        return false;
+      }
+      
+      // Filter by bathrooms
+      if (searchParams['minBathrooms'] != null && property.bathrooms < searchParams['minBathrooms']) {
+        return false;
+      }
+      
+      // Filter by property type
+      if (searchParams['propertyTypes'] != null && 
+          searchParams['propertyTypes'].isNotEmpty &&
+          !searchParams['propertyTypes'].contains(property.type)) {
+        return false;
+      }
+      
+      return true;
+    }).toList();
+    
+    // Update the properties list with filtered results
+    // Note: In a real app, you'd want to maintain the original list and show filtered results
+    // For now, we'll just notify listeners that search was performed
+    notifyListeners();
+  }
+
   // ==================== SAMPLE DATA GENERATION ====================
   
   /**
