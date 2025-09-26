@@ -1,4 +1,4 @@
-# Aibodes PropertySwipe Documentation Status 📚
+# Aibodes Documentation Status 📚
 
 ## ✅ **COMPLETED DOCUMENTATION**
 

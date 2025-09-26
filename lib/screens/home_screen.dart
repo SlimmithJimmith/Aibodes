@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
-          'PropertySwipe',
+          'Aibodes',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,

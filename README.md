@@ -1,10 +1,10 @@
-# Aibodes - PropertySwipe 🏠💕
+# Aibodes 🏠💕
 
 A cross-platform real estate app with Tinder-like swiping functionality built with Flutter. Match buyers with sellers through an intuitive swipe interface.
 
 ## About Aibodes
 
-Aibodes is a tech startup focused on revolutionizing the real estate industry through innovative mobile applications. Our flagship product, PropertySwipe, combines the familiar Tinder swiping experience with property browsing to create a more engaging and efficient way to find your dream home.
+Aibodes is a tech startup focused on revolutionizing the real estate industry through innovative mobile applications. Our flagship product combines the familiar Tinder swiping experience with property browsing to create a more engaging and efficient way to find your dream home.
 
 ## Features ✨
 

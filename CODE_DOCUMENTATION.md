@@ -1,7 +1,7 @@
-# Aibodes PropertySwipe App - Code Documentation 📚
+# Aibodes App - Code Documentation 📚
 
 ## Overview
-This document explains the Aibodes PropertySwipe app code in simple terms for developers with intermediate programming experience (C++, Java, OOP background).
+This document explains the Aibodes app code in simple terms for developers with intermediate programming experience (C++, Java, OOP background).
 
 ## Table of Contents
 1. [Project Structure](#project-structure)

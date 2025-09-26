@@ -1,4 +1,4 @@
-# Aibodes PropertySwipe - Quick Reference Guide 🚀
+# Aibodes - Quick Reference Guide 🚀
 
 ## Most Common Modifications
 

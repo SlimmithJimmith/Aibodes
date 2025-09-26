@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       create: (context) => AppProvider(),
       child: MaterialApp(
         // App title displayed in system UI
-        title: 'PropertySwipe',
+        title: 'Aibodes',
         
         // Global theme configuration for consistent styling
         theme: ThemeData(
