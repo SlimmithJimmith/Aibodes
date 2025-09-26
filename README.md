@@ -170,7 +170,10 @@ The app includes 20+ diverse properties across major US cities:
 
 ## License 📄
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under a Proprietary License - see the [LICENSE](LICENSE) file for details.
+
+**⚠️ IMPORTANT:** This software is proprietary and confidential to Aibodes. 
+Unauthorized use, copying, modification, or distribution is strictly prohibited.
 
 ## Acknowledgments 🙏
 
