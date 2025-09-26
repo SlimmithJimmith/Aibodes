@@ -131,7 +131,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   child: Column(
                     children: [
                       Text(
-                        'Äïbodes',
+                        'Aibödes',
                         style: GoogleFonts.dancingScript(
                           fontSize: 48,
                           fontWeight: FontWeight.bold,

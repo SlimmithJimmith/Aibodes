@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../providers/app_provider.dart';
 
 /**
  * Step-by-Step Onboarding System
@@ -522,9 +524,16 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
             BoxShadow(
               color: (widget.isBuyer 
                   ? const Color(0xFF00BFFF) 
+                  : const Color(0xFF00FF7F)).withOpacity(0.3),
+              blurRadius: 15,
+              spreadRadius: 2,
+            ),
+            BoxShadow(
+              color: (widget.isBuyer 
+                  ? const Color(0xFF00BFFF) 
                   : const Color(0xFF00FF7F)).withOpacity(0.1),
-              blurRadius: 10,
-              spreadRadius: 1,
+              blurRadius: 25,
+              spreadRadius: 4,
             ),
           ],
         ),
@@ -575,9 +584,16 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           BoxShadow(
             color: (widget.isBuyer 
                 ? const Color(0xFF00BFFF) 
+                : const Color(0xFF00FF7F)).withOpacity(0.3),
+            blurRadius: 15,
+            spreadRadius: 2,
+          ),
+          BoxShadow(
+            color: (widget.isBuyer 
+                ? const Color(0xFF00BFFF) 
                 : const Color(0xFF00FF7F)).withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 1,
+            blurRadius: 25,
+            spreadRadius: 4,
           ),
         ],
       ),
@@ -691,13 +707,14 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
         return;
       }
     } else {
-      if (_formKey.currentState!.validate()) {
-        _formData[currentStepData.fieldName] = _textController.text;
-      } else {
+      if (!_formKey.currentState!.validate()) {
         return;
       }
+      // Save the text field data
+      _formData[currentStepData.fieldName] = _textController.text;
     }
     
+    // Proceed to next step or complete onboarding
     if (_currentStep < _steps.length - 1) {
       _nextStep();
     } else {
@@ -740,18 +757,51 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
   }
 
   void _completeOnboarding() {
-    // TODO: Save user data and navigate to main app
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Welcome to Äïbodes!',
-            style: GoogleFonts.quicksand(),
-          ),
-          backgroundColor: widget.isBuyer 
-              ? const Color(0xFF00BFFF) 
-              : const Color(0xFF00FF7F),
+    // Save user data to AppProvider
+    final appProvider = context.read<AppProvider>();
+    
+    // Create user profile from collected data
+    final userData = {
+      'firstName': _formData['firstName'] ?? '',
+      'lastName': _formData['lastName'] ?? '',
+      'email': _formData['email'] ?? '',
+      'isBuyer': widget.isBuyer,
+    };
+    
+    // Add buyer-specific data
+    if (widget.isBuyer) {
+      userData.addAll({
+        'age': _formData['age'] ?? '',
+        'gender': _formData['gender'] ?? '',
+        'maritalStatus': _formData['maritalStatus'] ?? '',
+        'income': _formData['income'] ?? '',
+        'occupation': _formData['occupation'] ?? '',
+      });
+    } else {
+      // Add seller-specific data
+      userData.addAll({
+        'phone': _formData['phone'] ?? '',
+        'propertyType': _formData['propertyType'] ?? '',
+        'propertyAddress': _formData['propertyAddress'] ?? '',
+        'askingPrice': _formData['askingPrice'] ?? '',
+        'propertyDescription': _formData['propertyDescription'] ?? '',
+      });
+    }
+    
+    // Update user profile in AppProvider
+    appProvider.updateUserProfile(userData);
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Welcome to Aibödes!',
+          style: GoogleFonts.quicksand(),
         ),
-      );
+        backgroundColor: widget.isBuyer 
+            ? const Color(0xFF00BFFF) 
+            : const Color(0xFF00FF7F),
+      ),
+    );
     
     Navigator.pushReplacementNamed(context, '/main');
   }

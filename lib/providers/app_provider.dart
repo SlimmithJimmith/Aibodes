@@ -711,6 +711,69 @@ class AppProvider extends ChangeNotifier {
     ];
   }
 
+  // ==================== USER PROFILE MANAGEMENT ====================
+  
+  /**
+   * Updates the current user's profile with new data
+   * 
+   * This method is used to update user information collected during onboarding
+   * or profile editing. It creates a new User object with the updated data.
+   * 
+   * @param userData Map containing the user data to update
+   */
+  void updateUserProfile(Map<String, dynamic> userData) {
+    if (_currentUser == null) {
+      // Create a new user if none exists
+      _currentUser = User(
+        id: 'user_${DateTime.now().millisecondsSinceEpoch}',
+        firstName: userData['firstName'] ?? '',
+        lastName: userData['lastName'] ?? '',
+        email: userData['email'] ?? '',
+        phoneNumber: userData['phone'],
+        age: userData['age'] != null ? int.tryParse(userData['age'].toString()) : null,
+        gender: userData['gender'],
+        maritalStatus: userData['maritalStatus'],
+        income: userData['income'] != null ? int.tryParse(userData['income'].toString()) : null,
+        occupation: userData['occupation'],
+        propertyType: userData['propertyType'],
+        propertyAddress: userData['propertyAddress'],
+        askingPrice: userData['askingPrice'] != null ? int.tryParse(userData['askingPrice'].toString()) : null,
+        propertyDescription: userData['propertyDescription'],
+        type: userData['isBuyer'] == true ? UserType.buyer : UserType.seller,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+    } else {
+      // Update existing user
+      _currentUser = User(
+        id: _currentUser!.id,
+        firstName: userData['firstName'] ?? _currentUser!.firstName,
+        lastName: userData['lastName'] ?? _currentUser!.lastName,
+        email: userData['email'] ?? _currentUser!.email,
+        profileImage: _currentUser!.profileImage,
+        address: _currentUser!.address,
+        phoneNumber: userData['phone'] ?? _currentUser!.phoneNumber,
+        age: userData['age'] != null ? int.tryParse(userData['age'].toString()) : _currentUser!.age,
+        gender: userData['gender'] ?? _currentUser!.gender,
+        maritalStatus: userData['maritalStatus'] ?? _currentUser!.maritalStatus,
+        income: userData['income'] != null ? int.tryParse(userData['income'].toString()) : _currentUser!.income,
+        occupation: userData['occupation'] ?? _currentUser!.occupation,
+        propertyType: userData['propertyType'] ?? _currentUser!.propertyType,
+        propertyAddress: userData['propertyAddress'] ?? _currentUser!.propertyAddress,
+        askingPrice: userData['askingPrice'] != null ? int.tryParse(userData['askingPrice'].toString()) : _currentUser!.askingPrice,
+        propertyDescription: userData['propertyDescription'] ?? _currentUser!.propertyDescription,
+        type: _currentUser!.type,
+        preferences: _currentUser!.preferences,
+        createdAt: _currentUser!.createdAt,
+        updatedAt: DateTime.now(),
+        isVerified: _currentUser!.isVerified,
+      );
+    }
+    
+    // Notify all listening widgets of the state change
+    notifyListeners();
+  }
+
   // ==================== APP RESET ====================
   
   /**

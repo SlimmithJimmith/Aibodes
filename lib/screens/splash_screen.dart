@@ -12,7 +12,7 @@ import 'onboarding_screen.dart';
  * - Dark green background matching the logo design
  * - Automatic transition to onboarding after animation
  * 
- * @author Äïbodes Development Team
+ * @author Aibödes Development Team
  * @version 1.0.0
  */
 class SplashScreen extends StatefulWidget {
@@ -219,7 +219,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Widget _buildAppName() {
     return Text(
-      'Äïbodes',
+      'Aibödes',
       style: GoogleFonts.quicksand(
         fontSize: 32,
         fontWeight: FontWeight.w300,
@@ -262,40 +262,40 @@ class HeartHouseLogoPainter extends CustomPainter {
   void _drawHeart(Canvas canvas, double centerX, double centerY, double size, Paint fillPaint, Paint strokePaint) {
     final path = Path();
     
-    // Heart shape using cubic bezier curves
+    // Heart shape using cubic bezier curves - more accurate heart shape
     final leftX = centerX - size * 0.5;
     final rightX = centerX + size * 0.5;
-    final topY = centerY - size * 0.3;
-    final bottomY = centerY + size * 0.4;
+    final topY = centerY - size * 0.4;
+    final bottomY = centerY + size * 0.3;
     
     // Start from bottom point
     path.moveTo(centerX, bottomY);
     
-    // Left curve
+    // Left curve - more pronounced
     path.cubicTo(
-      leftX, bottomY - size * 0.1,
-      leftX, topY + size * 0.1,
-      leftX + size * 0.1, topY,
+      leftX, bottomY - size * 0.15,
+      leftX, topY + size * 0.2,
+      leftX + size * 0.15, topY + size * 0.1,
     );
     
-    // Top left curve
+    // Top left curve - creating the heart's left lobe
     path.cubicTo(
-      leftX + size * 0.2, topY - size * 0.1,
+      leftX + size * 0.25, topY - size * 0.1,
       centerX - size * 0.1, topY - size * 0.1,
       centerX, topY,
     );
     
-    // Top right curve
+    // Top right curve - creating the heart's right lobe
     path.cubicTo(
       centerX + size * 0.1, topY - size * 0.1,
-      rightX - size * 0.2, topY - size * 0.1,
-      rightX - size * 0.1, topY,
+      rightX - size * 0.25, topY - size * 0.1,
+      rightX - size * 0.15, topY + size * 0.1,
     );
     
-    // Right curve
+    // Right curve - more pronounced
     path.cubicTo(
-      rightX, topY + size * 0.1,
-      rightX, bottomY - size * 0.1,
+      rightX, topY + size * 0.2,
+      rightX, bottomY - size * 0.15,
       centerX, bottomY,
     );
     
@@ -306,38 +306,38 @@ class HeartHouseLogoPainter extends CustomPainter {
   }
 
   void _drawHouse(Canvas canvas, double centerX, double centerY, double size, Paint fillPaint, Paint strokePaint) {
-    // House base (rectangle)
-    final houseWidth = size * 0.8;
-    final houseHeight = size * 0.6;
+    // House base (rectangle) - positioned higher in the heart
+    final houseWidth = size * 0.7;
+    final houseHeight = size * 0.5;
     final houseLeft = centerX - houseWidth / 2;
-    final houseTop = centerY - houseHeight / 2;
+    final houseTop = centerY - houseHeight / 2 - size * 0.1; // Move up slightly
     
     final houseRect = Rect.fromLTWH(houseLeft, houseTop, houseWidth, houseHeight);
     canvas.drawRect(houseRect, fillPaint);
     canvas.drawRect(houseRect, strokePaint);
     
-    // House roof (triangle)
-    final roofHeight = size * 0.4;
+    // House roof (triangle) - more pointed like in the image
+    final roofHeight = size * 0.45;
     final roofTop = houseTop - roofHeight;
     
     final roofPath = Path();
     roofPath.moveTo(centerX, roofTop);
-    roofPath.lineTo(houseLeft - size * 0.1, houseTop);
-    roofPath.lineTo(houseLeft + houseWidth + size * 0.1, houseTop);
+    roofPath.lineTo(houseLeft - size * 0.05, houseTop);
+    roofPath.lineTo(houseLeft + houseWidth + size * 0.05, houseTop);
     roofPath.close();
     
     canvas.drawPath(roofPath, fillPaint);
     canvas.drawPath(roofPath, strokePaint);
     
-    // Door (rounded arch)
-    final doorWidth = size * 0.25;
-    final doorHeight = size * 0.4;
+    // Door (rounded arch) - more prominent
+    final doorWidth = size * 0.3;
+    final doorHeight = size * 0.35;
     final doorLeft = centerX - doorWidth / 2;
     final doorTop = houseTop + houseHeight - doorHeight;
     
     final doorRect = Rect.fromLTWH(doorLeft, doorTop, doorWidth, doorHeight);
     final doorPath = Path();
-    doorPath.addRRect(RRect.fromRectAndRadius(doorRect, const Radius.circular(8)));
+    doorPath.addRRect(RRect.fromRectAndRadius(doorRect, const Radius.circular(12)));
     
     canvas.drawPath(doorPath, fillPaint);
     canvas.drawPath(doorPath, strokePaint);

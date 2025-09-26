@@ -32,6 +32,33 @@ class User {
   /// User's phone number (optional, nullable)
   String? phoneNumber;
   
+  /// User's age (for buyers)
+  int? age;
+  
+  /// User's gender (for buyers)
+  String? gender;
+  
+  /// User's marital status (for buyers)
+  String? maritalStatus;
+  
+  /// User's annual income (for buyers)
+  int? income;
+  
+  /// User's occupation (for buyers)
+  String? occupation;
+  
+  /// Property type they have (for sellers)
+  String? propertyType;
+  
+  /// Property address (for sellers)
+  String? propertyAddress;
+  
+  /// Asking price (for sellers)
+  int? askingPrice;
+  
+  /// Property description (for sellers)
+  String? propertyDescription;
+  
   /// Type of user: buyer, seller, or both (immutable)
   final UserType type;
   
@@ -57,6 +84,15 @@ class User {
    * @param profileImage Optional profile image file path
    * @param address Optional physical address
    * @param phoneNumber Optional phone number
+   * @param age Optional age (for buyers)
+   * @param gender Optional gender (for buyers)
+   * @param maritalStatus Optional marital status (for buyers)
+   * @param income Optional annual income (for buyers)
+   * @param occupation Optional occupation (for buyers)
+   * @param propertyType Optional property type (for sellers)
+   * @param propertyAddress Optional property address (for sellers)
+   * @param askingPrice Optional asking price (for sellers)
+   * @param propertyDescription Optional property description (for sellers)
    * @param type Required user type (buyer/seller/both)
    * @param preferences Optional list of property preferences
    * @param createdAt Required account creation timestamp
@@ -71,6 +107,15 @@ class User {
     this.profileImage,
     this.address,
     this.phoneNumber,
+    this.age,
+    this.gender,
+    this.maritalStatus,
+    this.income,
+    this.occupation,
+    this.propertyType,
+    this.propertyAddress,
+    this.askingPrice,
+    this.propertyDescription,
     required this.type,
     this.preferences = const [],
     required this.createdAt,
