@@ -44,10 +44,18 @@ class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
 
   void _handleSwipeLeft() {
     _onSwipe(SwipeDirection.left);
+    _moveToNext();
   }
 
   void _handleSwipeRight() {
     _onSwipe(SwipeDirection.right);
+    _moveToNext();
+  }
+
+  void _moveToNext() {
+    if (_currentIndex < widget.properties.length - 1) {
+      _swiperController.next();
+    }
   }
 
   @override

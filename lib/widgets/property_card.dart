@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/property.dart';
 
 class PropertyCard extends StatelessWidget {
@@ -30,17 +31,22 @@ class PropertyCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
+              color: const Color(0xFF00BFFF).withOpacity(0.2),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
             ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           child: Stack(
             children: [
               // Property Image
@@ -107,10 +113,11 @@ class PropertyCard extends StatelessWidget {
                         children: [
                           Text(
                             property.formattedPrice,
-                            style: const TextStyle(
+                            style: GoogleFonts.quicksand(
                               color: Colors.white,
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
+                              letterSpacing: 0.5,
                             ),
                           ),
                           Container(
@@ -124,10 +131,11 @@ class PropertyCard extends StatelessWidget {
                             ),
                             child: Text(
                               property.type.displayName,
-                              style: const TextStyle(
+                              style: GoogleFonts.quicksand(
                                 color: Colors.white,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
+                                letterSpacing: 0.3,
                               ),
                             ),
                           ),
@@ -139,10 +147,11 @@ class PropertyCard extends StatelessWidget {
                       // Title
                       Text(
                         property.title,
-                        style: const TextStyle(
+                        style: GoogleFonts.dancingScript(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 22,
                           fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -162,9 +171,10 @@ class PropertyCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               property.location,
-                              style: const TextStyle(
-                                color: Colors.white,
+                              style: GoogleFonts.quicksand(
+                                color: Colors.white70,
                                 fontSize: 14,
+                                letterSpacing: 0.2,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -178,10 +188,11 @@ class PropertyCard extends StatelessWidget {
                       // Property details
                       Text(
                         property.propertyDetails,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: GoogleFonts.quicksand(
+                          color: Colors.white70,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
+                          letterSpacing: 0.2,
                         ),
                       ),
                     ],
@@ -193,12 +204,12 @@ class PropertyCard extends StatelessWidget {
               Positioned(
                 top: 20,
                 left: 20,
-                child: _buildSwipeIndicator('LIKE', Colors.green),
+                child: _buildSwipeIndicator('LIKE', const Color(0xFF00FF7F)),
               ),
               Positioned(
                 top: 20,
                 right: 20,
-                child: _buildSwipeIndicator('PASS', Colors.red),
+                child: _buildSwipeIndicator('PASS', const Color(0xFFFF6B6B)),
               ),
             ],
           ),
@@ -217,10 +228,11 @@ class PropertyCard extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: const TextStyle(
+        style: GoogleFonts.quicksand(
           color: Colors.white,
           fontSize: 12,
           fontWeight: FontWeight.bold,
+          letterSpacing: 0.5,
         ),
       ),
     );

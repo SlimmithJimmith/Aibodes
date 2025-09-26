@@ -71,43 +71,46 @@ class MyApp extends StatelessWidget {
         
         // Global theme configuration for consistent styling
         theme: ThemeData(
-          // Primary color scheme - blue theme
+          // Primary color scheme - dark theme
           primarySwatch: Colors.blue,
-          primaryColor: Colors.blue[600],
+          primaryColor: const Color(0xFF00BFFF),
           
-          // Background color for scaffold (main app background)
-          scaffoldBackgroundColor: Colors.grey[50],
+          // Background color for scaffold (main app background) - Black theme
+          scaffoldBackgroundColor: Colors.black,
           
-          // App bar styling - white background with black text
+          // App bar styling - black background with white text
           appBarTheme: AppBarTheme(
-            backgroundColor: Colors.white,    // White app bar background
-            foregroundColor: Colors.black,    // Black text and icons
-            elevation: 0,                     // No shadow/elevation
+            backgroundColor: Colors.black,     // Black app bar background
+            foregroundColor: Colors.white,     // White text and icons
+            elevation: 0,                      // No shadow/elevation
             titleTextStyle: const TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
           
-          // Button styling - blue background with white text
+          // Button styling - neon blue background with white text
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue[600],  // Blue button background
-              foregroundColor: Colors.white,      // White button text
+              backgroundColor: const Color(0xFF00BFFF),  // Neon blue button background
+              foregroundColor: Colors.white,             // White button text
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),  // Rounded corners
+                borderRadius: BorderRadius.circular(16),  // More rounded corners
               ),
+              elevation: 8,  // Add elevation for glow effect
+              shadowColor: const Color(0xFF00BFFF).withOpacity(0.3),
             ),
           ),
           
-          // Card styling - white background with subtle shadow
+          // Card styling - dark background with neon glow
           cardTheme: CardThemeData(
-            color: Colors.white,                    // White card background
-            elevation: 2,                          // Subtle shadow
+            color: const Color(0xFF1A1A1A),         // Dark card background
+            elevation: 4,                          // Enhanced shadow for glow
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),  // Rounded corners
+              borderRadius: BorderRadius.circular(20),  // More rounded corners
             ),
+            shadowColor: const Color(0xFF00BFFF).withOpacity(0.2),
           ),
         ),
         

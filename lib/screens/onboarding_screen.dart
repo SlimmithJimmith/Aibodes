@@ -167,35 +167,33 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
 
-                const SizedBox(height: 60),
+                const SizedBox(height: 80),
 
-                // Buyer and Seller Buttons
+                // Buyer and Seller Buttons - Stacked Layout
                 SlideTransition(
                   position: _slideAnimation,
-                  child: Row(
+                  child: Column(
                     children: [
-                      // Buyer Button
-                      Expanded(
-                        child: _buildNeonButton(
-                          title: 'Buyer',
-                          subtitle: 'Find Your Dream Home',
-                          color: const Color(0xFF00BFFF),
-                          icon: Icons.home,
-                          onTap: () => _navigateToBuyerFlow(),
-                        ),
+                      // Buyer Button - Top
+                      _buildNeonButton(
+                        title: 'Buyer',
+                        subtitle: 'Find Your Dream Home',
+                        color: const Color(0xFF00BFFF),
+                        icon: Icons.home,
+                        onTap: () => _navigateToBuyerFlow(),
+                        isLarge: true,
                       ),
                       
-                      const SizedBox(width: 24),
+                      const SizedBox(height: 40),
                       
-                      // Seller Button
-                      Expanded(
-                        child: _buildNeonButton(
-                          title: 'Seller',
-                          subtitle: 'List Your Property',
-                          color: const Color(0xFF00FF7F),
-                          icon: Icons.sell,
-                          onTap: () => _navigateToSellerFlow(),
-                        ),
+                      // Seller Button - Bottom
+                      _buildNeonButton(
+                        title: 'Seller',
+                        subtitle: 'List Your Property',
+                        color: const Color(0xFF00FF7F),
+                        icon: Icons.sell,
+                        onTap: () => _navigateToSellerFlow(),
+                        isLarge: true,
                       ),
                     ],
                   ),
@@ -232,6 +230,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     required Color color,
     required IconData icon,
     required VoidCallback onTap,
+    bool isLarge = false,
   }) {
     return AnimatedBuilder(
       animation: _glowAnimation,
@@ -239,35 +238,36 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         return GestureDetector(
           onTap: onTap,
           child: Container(
-            height: 200,
+            height: isLarge ? 280 : 200,
+            width: isLarge ? double.infinity : null,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: color.withOpacity(0.3),
-                width: 1,
+                width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: color.withOpacity(0.2 * _glowAnimation.value),
-                  blurRadius: 20 * _glowAnimation.value,
-                  spreadRadius: 2 * _glowAnimation.value,
+                  color: color.withOpacity(0.3 * _glowAnimation.value),
+                  blurRadius: 25 * _glowAnimation.value,
+                  spreadRadius: 3 * _glowAnimation.value,
                 ),
                 BoxShadow(
-                  color: color.withOpacity(0.1 * _glowAnimation.value),
-                  blurRadius: 40 * _glowAnimation.value,
-                  spreadRadius: 4 * _glowAnimation.value,
+                  color: color.withOpacity(0.15 * _glowAnimation.value),
+                  blurRadius: 50 * _glowAnimation.value,
+                  spreadRadius: 6 * _glowAnimation.value,
                 ),
               ],
             ),
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    color.withOpacity(0.1),
-                    color.withOpacity(0.05),
+                    color.withOpacity(0.15),
+                    color.withOpacity(0.08),
                     Colors.transparent,
                   ],
                 ),
@@ -277,47 +277,47 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 children: [
                   // Icon with glow
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(isLarge ? 20 : 16),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: color.withOpacity(0.2),
+                      color: color.withOpacity(0.25),
                       boxShadow: [
                         BoxShadow(
-                          color: color.withOpacity(0.3),
-                          blurRadius: 15,
-                          spreadRadius: 2,
+                          color: color.withOpacity(0.4),
+                          blurRadius: isLarge ? 20 : 15,
+                          spreadRadius: isLarge ? 3 : 2,
                         ),
                       ],
                     ),
                     child: Icon(
                       icon,
-                      size: 32,
+                      size: isLarge ? 48 : 32,
                       color: color,
                     ),
                   ),
                   
-                  const SizedBox(height: 16),
+                  SizedBox(height: isLarge ? 20 : 16),
                   
                   // Title
                   Text(
                     title,
                     style: GoogleFonts.dancingScript(
-                      fontSize: 28,
+                      fontSize: isLarge ? 36 : 28,
                       fontWeight: FontWeight.bold,
                       color: color,
-                      letterSpacing: 1.0,
+                      letterSpacing: 1.2,
                     ),
                   ),
                   
-                  const SizedBox(height: 8),
+                  SizedBox(height: isLarge ? 12 : 8),
                   
                   // Subtitle
                   Text(
                     subtitle,
                     style: GoogleFonts.quicksand(
-                      fontSize: 12,
+                      fontSize: isLarge ? 16 : 12,
                       color: Colors.white70,
-                      letterSpacing: 0.3,
+                      letterSpacing: 0.5,
                     ),
                     textAlign: TextAlign.center,
                   ),

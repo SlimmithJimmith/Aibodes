@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 // Import Provider package for state management
 import 'package:provider/provider.dart';
+// Import Google Fonts for beautiful typography
+import 'package:google_fonts/google_fonts.dart';
 // Import our custom app provider for managing app state
 import '../providers/app_provider.dart';
 // Import custom widgets
@@ -72,48 +74,50 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Aibodes',
-          style: TextStyle(
+          style: GoogleFonts.dancingScript(
             fontWeight: FontWeight.bold,
-            fontSize: 24,
+            fontSize: 28,
+            color: Colors.white,
+            letterSpacing: 1.0,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.search, color: Colors.white),
             onPressed: () {
               Navigator.pushNamed(context, '/advanced-search');
             },
             tooltip: 'Advanced Search',
           ),
           IconButton(
-            icon: const Icon(Icons.map),
+            icon: const Icon(Icons.map, color: Colors.white),
             onPressed: () {
               Navigator.pushNamed(context, '/map');
             },
             tooltip: 'Property Map',
           ),
         IconButton(
-          icon: const Icon(Icons.calculate),
+          icon: const Icon(Icons.calculate, color: Colors.white),
           onPressed: () {
             Navigator.pushNamed(context, '/mortgage-calculator');
           },
           tooltip: 'Mortgage Calculator',
         ),
         IconButton(
-          icon: const Icon(Icons.star),
+          icon: const Icon(Icons.star, color: Colors.white),
           onPressed: () {
             Navigator.pushNamed(context, '/premium-features');
           },
           tooltip: 'Premium Features',
         ),
         IconButton(
-          icon: const Icon(Icons.location_city),
+          icon: const Icon(Icons.location_city, color: Colors.white),
           onPressed: () {
             // Show neighborhood insights for the first available property
             final properties = context.read<AppProvider>().availableProperties;
@@ -128,14 +132,14 @@ class _HomeScreenState extends State<HomeScreen> {
           tooltip: 'Neighborhood Insights',
         ),
         IconButton(
-          icon: const Icon(Icons.people),
+          icon: const Icon(Icons.people, color: Colors.white),
           onPressed: () {
             Navigator.pushNamed(context, '/agent-integration');
           },
           tooltip: 'Connect with Agents',
         ),
           IconButton(
-            icon: const Icon(Icons.favorite),
+            icon: const Icon(Icons.favorite, color: Colors.white),
             onPressed: () {
               Navigator.push(
                 context,
@@ -147,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
             tooltip: 'Matches',
           ),
           IconButton(
-            icon: const Icon(Icons.person),
+            icon: const Icon(Icons.person, color: Colors.white),
             onPressed: () {
               Navigator.push(
                 context,
