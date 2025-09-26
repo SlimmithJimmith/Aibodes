@@ -7,6 +7,7 @@ import 'providers/app_provider.dart';
 // Import models for navigation
 import 'models/property.dart';
 // Import our custom screens
+import 'screens/onboarding_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/matches_screen.dart';
 import 'screens/profile_screen.dart';
@@ -110,11 +111,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
         
-        // Set MainScreen as the home widget (first screen shown)
-        home: const MainScreen(),
+        // Set OnboardingScreen as the home widget (first screen shown)
+        home: const OnboardingScreen(),
         
         // Route definitions for navigation
             routes: {
+              '/main': (context) => const MainScreen(),
               '/advanced-search': (context) => const AdvancedSearchScreen(),
               '/mortgage-calculator': (context) => const MortgageCalculatorScreen(),
               '/map': (context) => const MapScreen(),

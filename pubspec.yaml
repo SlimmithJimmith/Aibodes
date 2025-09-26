@@ -33,6 +33,7 @@ dependencies:
   photo_view: ^0.14.0            # Photo gallery with zoom
   carousel_slider: ^4.2.1        # Image carousels
   shimmer: ^3.0.0                # Loading animations
+  google_fonts: ^6.1.0           # Beautiful typography
   
   # Data Management
   hive: ^2.2.3                   # Local database
