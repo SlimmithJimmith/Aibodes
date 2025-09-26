@@ -387,6 +387,32 @@ class PropertyDetailScreen extends StatelessWidget {
           
           const SizedBox(height: 12),
           
+          // Neighborhood Insights Button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/neighborhood-insights',
+                  arguments: property,
+                );
+              },
+              icon: const Icon(Icons.location_city),
+              label: const Text('Neighborhood Insights'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+            ),
+          ),
+          
+          const SizedBox(height: 12),
+          
           Row(
             children: [
               Expanded(

@@ -16,6 +16,7 @@ import 'screens/map_screen.dart';
 import 'screens/property_detail_screen.dart';
 import 'screens/premium_features_screen.dart';
 import 'screens/virtual_tour_screen.dart';
+import 'screens/neighborhood_insights_screen.dart';
 
 /**
  * Main entry point of the Aibodes application
@@ -120,6 +121,10 @@ class MyApp extends StatelessWidget {
               '/virtual-tour': (context) {
                 final propertyId = ModalRoute.of(context)!.settings.arguments as String;
                 return VirtualTourScreen(propertyId: propertyId);
+              },
+              '/neighborhood-insights': (context) {
+                final property = ModalRoute.of(context)!.settings.arguments as Property;
+                return NeighborhoodInsightsScreen(property: property);
               },
               '/property-details': (context) {
                 final property = ModalRoute.of(context)!.settings.arguments as Property;

@@ -112,6 +112,21 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           tooltip: 'Premium Features',
         ),
+        IconButton(
+          icon: const Icon(Icons.location_city),
+          onPressed: () {
+            // Show neighborhood insights for the first available property
+            final properties = context.read<AppProvider>().availableProperties;
+            if (properties.isNotEmpty) {
+              Navigator.pushNamed(
+                context,
+                '/neighborhood-insights',
+                arguments: properties.first,
+              );
+            }
+          },
+          tooltip: 'Neighborhood Insights',
+        ),
           IconButton(
             icon: const Icon(Icons.people),
             onPressed: () {
