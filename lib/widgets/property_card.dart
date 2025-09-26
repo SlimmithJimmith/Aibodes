@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/property.dart';
 
-class PropertyCard extends StatelessWidget {
+class PropertyCard extends StatefulWidget {
   final Property property;
   final VoidCallback? onSwipeLeft;
   final VoidCallback? onSwipeRight;
@@ -18,44 +18,115 @@ class PropertyCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<PropertyCard> createState() => _PropertyCardState();
+}
+
+class _PropertyCardState extends State<PropertyCard>
+    with TickerProviderStateMixin {
+  late AnimationController _heartController;
+  late AnimationController _borderController;
+  
+  late Animation<double> _heartScale;
+  late Animation<double> _heartOpacity;
+  late Animation<double> _borderOpacity;
+  
+  bool _showHeart = false;
+  bool _showBorder = false;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _heartController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    
+    _borderController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    _heartScale = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _heartController,
+      curve: Curves.elasticOut,
+    ));
+
+    _heartOpacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _heartController,
+      curve: const Interval(0.0, 0.5, curve: Curves.easeIn),
+    ));
+
+    _borderOpacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _borderController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _heartController.dispose();
+    _borderController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       onPanEnd: (details) {
         if (details.velocity.pixelsPerSecond.dx > 500) {
-          onSwipeRight?.call();
+          _showHeartAnimation();
+          widget.onSwipeRight?.call();
         } else if (details.velocity.pixelsPerSecond.dx < -500) {
-          onSwipeLeft?.call();
+          widget.onSwipeLeft?.call();
         }
       },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF00BFFF).withOpacity(0.2),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
+      child: AnimatedBuilder(
+        animation: _borderController,
+        builder: (context, child) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: _showBorder ? Border.all(
+                color: const Color(0xFF00FF7F).withOpacity(_borderOpacity.value),
+                width: 3,
+              ) : null,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.5),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+                if (_showBorder)
+                  BoxShadow(
+                    color: const Color(0xFF00FF7F).withOpacity(0.3 * _borderOpacity.value),
+                    blurRadius: 20,
+                    spreadRadius: 2,
+                  ),
+              ],
             ),
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(20),
           child: Stack(
             children: [
               // Property Image
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                child: property.images.isNotEmpty
+                    child: widget.property.images.isNotEmpty
                     ? CachedNetworkImage(
-                        imageUrl: property.images.first,
+                            imageUrl: widget.property.images.first,
                         fit: BoxFit.cover,
                         placeholder: (context, url) => Container(
                           color: Colors.grey[300],
@@ -112,7 +183,7 @@ class PropertyCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            property.formattedPrice,
+                                widget.property.formattedPrice,
                             style: GoogleFonts.quicksand(
                               color: Colors.white,
                               fontSize: 28,
@@ -130,7 +201,7 @@ class PropertyCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              property.type.displayName,
+                                  widget.property.type.displayName,
                               style: GoogleFonts.quicksand(
                                 color: Colors.white,
                                 fontSize: 12,
@@ -146,7 +217,7 @@ class PropertyCard extends StatelessWidget {
                       
                       // Title
                       Text(
-                        property.title,
+                            widget.property.title,
                         style: GoogleFonts.dancingScript(
                           color: Colors.white,
                           fontSize: 22,
@@ -170,7 +241,7 @@ class PropertyCard extends StatelessWidget {
                           const SizedBox(width: 4),
                           Expanded(
                             child: Text(
-                              property.location,
+                                  widget.property.location,
                               style: GoogleFonts.quicksand(
                                 color: Colors.white70,
                                 fontSize: 14,
@@ -187,7 +258,7 @@ class PropertyCard extends StatelessWidget {
                       
                       // Property details
                       Text(
-                        property.propertyDetails,
+                            widget.property.propertyDetails,
                         style: GoogleFonts.quicksand(
                           color: Colors.white70,
                           fontSize: 14,
@@ -200,41 +271,74 @@ class PropertyCard extends StatelessWidget {
                 ),
               ),
               
-              // Swipe indicators
-              Positioned(
-                top: 20,
-                left: 20,
-                child: _buildSwipeIndicator('LIKE', const Color(0xFF00FF7F)),
-              ),
-              Positioned(
-                top: 20,
-                right: 20,
-                child: _buildSwipeIndicator('PASS', const Color(0xFFFF6B6B)),
-              ),
+              // Neon heart animation overlay (will be shown when swiping right)
+              _buildNeonHeartOverlay(),
             ],
           ),
         ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildSwipeIndicator(String text, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white, width: 2),
-      ),
-      child: Text(
-        text,
-        style: GoogleFonts.quicksand(
-          color: Colors.white,
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 0.5,
-        ),
-      ),
+  void _showHeartAnimation() {
+    setState(() {
+      _showHeart = true;
+      _showBorder = true;
+    });
+    
+    _borderController.forward();
+    _heartController.forward().then((_) {
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        if (mounted) {
+          setState(() {
+            _showHeart = false;
+            _showBorder = false;
+          });
+          _heartController.reset();
+          _borderController.reset();
+        }
+      });
+    });
+  }
+
+  Widget _buildNeonHeartOverlay() {
+    if (!_showHeart) return const SizedBox.shrink();
+    
+    return AnimatedBuilder(
+      animation: _heartController,
+      builder: (context, child) {
+        return Center(
+          child: Transform.scale(
+            scale: _heartScale.value,
+            child: Opacity(
+              opacity: _heartOpacity.value,
+              child: Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xFF00FF7F).withOpacity(0.2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF00FF7F).withOpacity(0.5),
+                      blurRadius: 30,
+                      spreadRadius: 5,
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.favorite,
+                  color: Color(0xFF00FF7F),
+                  size: 60,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
+
 }

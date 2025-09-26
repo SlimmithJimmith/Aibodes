@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'step_by_step_onboarding.dart';
 
 /**
  * Onboarding Screen - Beautiful first-time user experience
@@ -167,7 +168,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
 
-                const SizedBox(height: 80),
+                const SizedBox(height: 60),
 
                 // Buyer and Seller Buttons - Stacked Layout
                 SlideTransition(
@@ -184,7 +185,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         isLarge: true,
                       ),
                       
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
                       
                       // Seller Button - Bottom
                       _buildNeonButton(
@@ -199,7 +200,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
 
-                const SizedBox(height: 80),
+                const SizedBox(height: 40),
 
                 // Subtle hint text
                 FadeTransition(
@@ -337,7 +338,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => const BuyerOnboardingScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) => const StepByStepOnboarding(isBuyer: true),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,
@@ -356,7 +357,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => const SellerOnboardingScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) => const StepByStepOnboarding(isBuyer: false),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,

@@ -65,7 +65,7 @@ class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
     }
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: MediaQuery.of(context).size.height * 0.85,
       child: Swiper(
         controller: _swiperController,
         itemCount: widget.properties.length,
@@ -93,8 +93,8 @@ class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
         },
         scrollDirection: Axis.horizontal,
         loop: false,
-        scale: 0.8,
-        viewportFraction: 0.9,
+        scale: 0.95,
+        viewportFraction: 0.95,
         physics: const BouncingScrollPhysics(),
       ),
     );
