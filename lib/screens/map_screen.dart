@@ -120,6 +120,12 @@ class _MapScreenState extends State<MapScreen> {
     
     for (int i = 0; i < properties.length; i++) {
       final property = properties[i];
+      
+      // Skip properties without valid coordinates
+      if (property.latitude == 0.0 && property.longitude == 0.0) {
+        continue;
+      }
+      
       final marker = Marker(
         markerId: MarkerId(property.id),
         position: LatLng(property.latitude, property.longitude),
@@ -477,7 +483,9 @@ class _MapScreenState extends State<MapScreen> {
                 ],
               ),
               child: Text(
-                '${_markers.length} properties',
+                _markers.isEmpty 
+                  ? 'No properties with coordinates'
+                  : '${_markers.length} properties',
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
@@ -485,6 +493,55 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
+          
+          // No properties message
+          if (_markers.isEmpty && !_isLoading)
+            Positioned(
+              top: 100,
+              left: 16,
+              right: 16,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.location_off,
+                      size: 48,
+                      color: Colors.grey[400],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'No Properties Available',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Properties need coordinates to appear on the map',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
