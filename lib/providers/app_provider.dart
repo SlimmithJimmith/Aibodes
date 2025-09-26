@@ -280,6 +280,26 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
+  // ==================== SAMPLE DATA GENERATION ====================
+  
+  /**
+   * Generates sample properties for demonstration purposes
+   * 
+   * This method creates a comprehensive list of 20+ sample properties
+   * with diverse characteristics including:
+   * - Different property types (apartment, house, condo, etc.)
+   * - Various price ranges and locations
+   * - Different bedroom/bathroom configurations
+   * - High-quality images from Unsplash
+   * - Realistic property descriptions
+   * 
+   * In a production app, this data would come from:
+   * - API calls to a backend service
+   * - Database queries
+   * - Real estate listing services
+   * 
+   * @return List of sample Property objects for swiping
+   */
   List<Property> _generateSampleProperties() {
     return [
       Property(
@@ -625,12 +645,36 @@ class AppProvider extends ChangeNotifier {
     ];
   }
 
+  // ==================== APP RESET ====================
+  
+  /**
+   * Resets the app to its initial state
+   * 
+   * This method is useful for:
+   * - Testing purposes
+   * - Allowing users to start over
+   * - Clearing all user interactions
+   * 
+   * It regenerates the sample properties and clears all user interaction lists:
+   * - Resets available properties to full sample list
+   * - Clears all swiped properties
+   * - Clears all liked properties
+   * - Clears all viewed properties
+   * - Clears all matches
+   * 
+   * Note: This does NOT reset the current user profile
+   */
   void resetApp() {
+    // Regenerate the full list of available properties
     _availableProperties = _generateSampleProperties();
-    _swipedProperties.clear();
-    _likedProperties.clear();
-    _viewedProperties.clear();
-    _matches.clear();
+    
+    // Clear all user interaction lists
+    _swipedProperties.clear();    // Clear swiped properties
+    _likedProperties.clear();     // Clear liked properties
+    _viewedProperties.clear();    // Clear viewed properties
+    _matches.clear();             // Clear all matches
+    
+    // Notify all listening widgets of the state change
     notifyListeners();
   }
 }
