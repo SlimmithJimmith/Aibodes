@@ -15,6 +15,7 @@ import 'screens/mortgage_calculator_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/property_detail_screen.dart';
 import 'screens/premium_features_screen.dart';
+import 'screens/virtual_tour_screen.dart';
 
 /**
  * Main entry point of the Aibodes application
@@ -116,6 +117,10 @@ class MyApp extends StatelessWidget {
               '/mortgage-calculator': (context) => const MortgageCalculatorScreen(),
               '/map': (context) => const MapScreen(),
               '/premium-features': (context) => const PremiumFeaturesScreen(),
+              '/virtual-tour': (context) {
+                final propertyId = ModalRoute.of(context)!.settings.arguments as String;
+                return VirtualTourScreen(propertyId: propertyId);
+              },
               '/property-details': (context) {
                 final property = ModalRoute.of(context)!.settings.arguments as Property;
                 return PropertyDetailScreen(property: property);

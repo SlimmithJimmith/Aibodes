@@ -360,6 +360,33 @@ class PropertyDetailScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
+          
+          // Virtual Tour Button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/virtual-tour',
+                  arguments: property.id,
+                );
+              },
+              icon: const Icon(Icons.video_camera_back),
+              label: const Text('View Virtual Tour'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+            ),
+          ),
+          
+          const SizedBox(height: 12),
+          
           Row(
             children: [
               Expanded(
