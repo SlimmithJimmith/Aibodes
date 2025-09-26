@@ -413,6 +413,32 @@ class PropertyDetailScreen extends StatelessWidget {
           
           const SizedBox(height: 12),
           
+          // Agent Integration Button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/agent-integration',
+                  arguments: property,
+                );
+              },
+              icon: const Icon(Icons.people),
+              label: const Text('Connect with Agents'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.indigo,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+            ),
+          ),
+          
+          const SizedBox(height: 12),
+          
           Row(
             children: [
               Expanded(

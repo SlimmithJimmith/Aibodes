@@ -17,6 +17,7 @@ import 'screens/property_detail_screen.dart';
 import 'screens/premium_features_screen.dart';
 import 'screens/virtual_tour_screen.dart';
 import 'screens/neighborhood_insights_screen.dart';
+import 'screens/agent_integration_screen.dart';
 
 /**
  * Main entry point of the Aibodes application
@@ -125,6 +126,10 @@ class MyApp extends StatelessWidget {
               '/neighborhood-insights': (context) {
                 final property = ModalRoute.of(context)!.settings.arguments as Property;
                 return NeighborhoodInsightsScreen(property: property);
+              },
+              '/agent-integration': (context) {
+                final property = ModalRoute.of(context)?.settings.arguments as Property?;
+                return AgentIntegrationScreen(property: property);
               },
               '/property-details': (context) {
                 final property = ModalRoute.of(context)!.settings.arguments as Property;

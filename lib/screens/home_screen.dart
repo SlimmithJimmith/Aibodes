@@ -127,8 +127,15 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           tooltip: 'Neighborhood Insights',
         ),
+        IconButton(
+          icon: const Icon(Icons.people),
+          onPressed: () {
+            Navigator.pushNamed(context, '/agent-integration');
+          },
+          tooltip: 'Connect with Agents',
+        ),
           IconButton(
-            icon: const Icon(Icons.people),
+            icon: const Icon(Icons.favorite),
             onPressed: () {
               Navigator.push(
                 context,
