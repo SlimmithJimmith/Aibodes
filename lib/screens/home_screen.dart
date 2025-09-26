@@ -85,6 +85,27 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         actions: [
           IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.pushNamed(context, '/advanced-search');
+            },
+            tooltip: 'Advanced Search',
+          ),
+          IconButton(
+            icon: const Icon(Icons.map),
+            onPressed: () {
+              Navigator.pushNamed(context, '/map');
+            },
+            tooltip: 'Property Map',
+          ),
+          IconButton(
+            icon: const Icon(Icons.calculate),
+            onPressed: () {
+              Navigator.pushNamed(context, '/mortgage-calculator');
+            },
+            tooltip: 'Mortgage Calculator',
+          ),
+          IconButton(
             icon: const Icon(Icons.people),
             onPressed: () {
               Navigator.push(
@@ -94,6 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
+            tooltip: 'Matches',
           ),
           IconButton(
             icon: const Icon(Icons.person),
@@ -105,12 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-          ),
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              context.read<AppProvider>().resetApp();
-            },
+            tooltip: 'Profile',
           ),
         ],
       ),

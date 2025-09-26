@@ -4,10 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // Import our custom app provider for managing app state
 import 'providers/app_provider.dart';
+// Import models for navigation
+import 'models/property.dart';
 // Import our custom screens
 import 'screens/home_screen.dart';
 import 'screens/matches_screen.dart';
 import 'screens/profile_screen.dart';
+import 'screens/advanced_search_screen.dart';
+import 'screens/mortgage_calculator_screen.dart';
+import 'screens/map_screen.dart';
+import 'screens/property_detail_screen.dart';
 
 /**
  * Main entry point of the Aibodes application
@@ -102,6 +108,17 @@ class MyApp extends StatelessWidget {
         
         // Set MainScreen as the home widget (first screen shown)
         home: const MainScreen(),
+        
+        // Route definitions for navigation
+        routes: {
+          '/advanced-search': (context) => const AdvancedSearchScreen(),
+          '/mortgage-calculator': (context) => const MortgageCalculatorScreen(),
+          '/map': (context) => const MapScreen(),
+          '/property-details': (context) {
+            final property = ModalRoute.of(context)!.settings.arguments as Property;
+            return PropertyDetailScreen(property: property);
+          },
+        },
         
         // Hide the debug banner in release builds
         debugShowCheckedModeBanner: false,

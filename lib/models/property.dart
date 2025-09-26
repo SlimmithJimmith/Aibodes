@@ -26,6 +26,15 @@ class Property {
   /// Property location (e.g., "Downtown, New York")
   final String location;
   
+  /// Property address (e.g., "123 Main St, New York, NY 10001")
+  final String address;
+  
+  /// Property latitude for map display
+  final double latitude;
+  
+  /// Property longitude for map display
+  final double longitude;
+  
   /// Number of bedrooms in the property
   final int bedrooms;
   
@@ -35,11 +44,17 @@ class Property {
   /// Property area in square feet (e.g., 1200.0)
   final double area;
   
+  /// Property square footage (alias for area)
+  final double squareFeet;
+  
   /// List of image URLs for the property
   final List<String> images;
   
   /// Type of property (house, apartment, condo, etc.)
   final PropertyType type;
+  
+  /// Property type (alias for type)
+  final PropertyType propertyType;
   
   /// ID of the seller who owns this property
   final String sellerId;
@@ -73,11 +88,16 @@ class Property {
     required this.description,
     required this.price,
     required this.location,
+    required this.address,
+    required this.latitude,
+    required this.longitude,
     required this.bedrooms,
     required this.bathrooms,
     required this.area,
+    required this.squareFeet,
     required this.images,
     required this.type,
+    required this.propertyType,
     required this.sellerId,
     required this.createdAt,
     this.isAvailable = true,
@@ -240,6 +260,12 @@ enum PropertyType {
   
   /// Open-plan living space, often converted from commercial
   loft,
+  
+  /// Vacant land for development
+  land,
+  
+  /// Commercial property (office, retail, etc.)
+  commercial,
 }
 
 /**
@@ -275,6 +301,10 @@ extension PropertyTypeExtension on PropertyType {
         return 'Studio';                 // Display as "Studio"
       case PropertyType.loft:
         return 'Loft';                   // Display as "Loft"
+      case PropertyType.land:
+        return 'Land';                   // Display as "Land"
+      case PropertyType.commercial:
+        return 'Commercial';             // Display as "Commercial"
     }
   }
 }
