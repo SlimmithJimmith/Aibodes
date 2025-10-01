@@ -8,6 +8,7 @@ class PropertyCard extends StatefulWidget {
   final VoidCallback? onSwipeLeft;
   final VoidCallback? onSwipeRight;
   final VoidCallback? onTap;
+  final bool isBuyer; // Add user type parameter
 
   const PropertyCard({
     Key? key,
@@ -15,6 +16,7 @@ class PropertyCard extends StatefulWidget {
     this.onSwipeLeft,
     this.onSwipeRight,
     this.onTap,
+    this.isBuyer = true, // Default to buyer
   }) : super(key: key);
 
   @override
@@ -32,6 +34,8 @@ class _PropertyCardState extends State<PropertyCard>
   
   bool _showHeart = false;
   bool _showBorder = false;
+  Color _borderColor = const Color(0xFF00FF7F); // Default green for like
+  bool _hasTriggeredSwipe = false; // Prevent multiple triggers
 
   @override
   void initState() {
@@ -83,11 +87,24 @@ class _PropertyCardState extends State<PropertyCard>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
+      onPanStart: (details) {
+        _hasTriggeredSwipe = false; // Reset flag on new pan
+      },
       onPanEnd: (details) {
-        if (details.velocity.pixelsPerSecond.dx > 500) {
-          _showHeartAnimation();
+        if (_hasTriggeredSwipe) return; // Prevent multiple triggers
+        
+        // Check for significant swipe
+        if (details.velocity.pixelsPerSecond.dx > 300) {
+          // Swipe right - like
+          print('Swipe right detected - showing animation');
+          _hasTriggeredSwipe = true;
+          _showSwipeAnimation(true);
           widget.onSwipeRight?.call();
-        } else if (details.velocity.pixelsPerSecond.dx < -500) {
+        } else if (details.velocity.pixelsPerSecond.dx < -300) {
+          // Swipe left - dislike
+          print('Swipe left detected - showing animation');
+          _hasTriggeredSwipe = true;
+          _showSwipeAnimation(false);
           widget.onSwipeLeft?.call();
         }
       },
@@ -95,12 +112,11 @@ class _PropertyCardState extends State<PropertyCard>
         animation: _borderController,
         builder: (context, child) {
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(0), // No border radius for full screen
               border: _showBorder ? Border.all(
-                color: const Color(0xFF00FF7F).withOpacity(_borderOpacity.value),
-                width: 3,
+                color: _borderColor.withOpacity(_borderOpacity.value),
+                width: 4,
               ) : null,
               boxShadow: [
                 BoxShadow(
@@ -110,14 +126,14 @@ class _PropertyCardState extends State<PropertyCard>
                 ),
                 if (_showBorder)
                   BoxShadow(
-                    color: const Color(0xFF00FF7F).withOpacity(0.3 * _borderOpacity.value),
-                    blurRadius: 20,
-                    spreadRadius: 2,
+                    color: _borderColor.withOpacity(0.4 * _borderOpacity.value),
+                    blurRadius: 25,
+                    spreadRadius: 3,
                   ),
               ],
             ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(0), // No border radius for full screen
           child: Stack(
             children: [
               // Property Image
@@ -282,25 +298,44 @@ class _PropertyCardState extends State<PropertyCard>
     );
   }
 
-  void _showHeartAnimation() {
+  void _showSwipeAnimation(bool isLike) {
     setState(() {
-      _showHeart = true;
+      _showHeart = isLike; // Only show heart for likes
       _showBorder = true;
+      if (isLike) {
+        // Use blue for buyer, green for seller when liking
+        _borderColor = widget.isBuyer ? const Color(0xFF00BFFF) : const Color(0xFF00FF7F);
+      } else {
+        // Red for dislike regardless of user type
+        _borderColor = const Color(0xFFFF4444);
+      }
     });
     
     _borderController.forward();
-    _heartController.forward().then((_) {
-      Future.delayed(const Duration(milliseconds: 1000), () {
+    if (isLike) {
+      _heartController.forward().then((_) {
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          if (mounted) {
+            setState(() {
+              _showHeart = false;
+              _showBorder = false;
+            });
+            _heartController.reset();
+            _borderController.reset();
+          }
+        });
+      });
+    } else {
+      // For dislike, just show border animation
+      Future.delayed(const Duration(milliseconds: 800), () {
         if (mounted) {
           setState(() {
-            _showHeart = false;
             _showBorder = false;
           });
-          _heartController.reset();
           _borderController.reset();
         }
       });
-    });
+    }
   }
 
   Widget _buildNeonHeartOverlay() {
@@ -319,18 +354,18 @@ class _PropertyCardState extends State<PropertyCard>
                 height: 120,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color(0xFF00FF7F).withOpacity(0.2),
+                  color: _borderColor.withOpacity(0.2),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF00FF7F).withOpacity(0.5),
+                      color: _borderColor.withOpacity(0.5),
                       blurRadius: 30,
                       spreadRadius: 5,
                     ),
                   ],
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.favorite,
-                  color: Color(0xFF00FF7F),
+                  color: _borderColor,
                   size: 60,
                 ),
               ),

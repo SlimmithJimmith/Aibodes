@@ -235,14 +235,14 @@ class _MainScreenState extends State<MainScreen> {
         // Fixed type ensures all tabs are always visible
         type: BottomNavigationBarType.fixed,
         
-        // White background for navigation bar
-        backgroundColor: Colors.white,
+        // Black background for navigation bar to match theme
+        backgroundColor: Colors.black,
         
-        // Blue color for selected tab
-        selectedItemColor: Colors.blue[600],
+        // Neon blue color for selected tab
+        selectedItemColor: const Color(0xFF00BFFF),
         
-        // Grey color for unselected tabs
-        unselectedItemColor: Colors.grey[600],
+        // White color for unselected tabs
+        unselectedItemColor: Colors.white70,
         
         // Define the three navigation tabs
         items: const [

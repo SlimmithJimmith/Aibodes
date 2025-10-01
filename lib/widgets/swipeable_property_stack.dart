@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import '../models/property.dart';
 import 'property_card.dart';
 
@@ -7,12 +6,14 @@ class SwipeablePropertyStack extends StatefulWidget {
   final List<Property> properties;
   final Function(Property property, SwipeDirection direction) onSwipe;
   final Function(Property property)? onTap;
+  final bool isBuyer; // Add user type parameter
 
   const SwipeablePropertyStack({
     Key? key,
     required this.properties,
     required this.onSwipe,
     this.onTap,
+    this.isBuyer = true, // Default to buyer
   }) : super(key: key);
 
   @override
@@ -20,18 +21,18 @@ class SwipeablePropertyStack extends StatefulWidget {
 }
 
 class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
-  late SwiperController _swiperController;
+  late PageController _pageController;
   int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _swiperController = SwiperController();
+    _pageController = PageController();
   }
 
   @override
   void dispose() {
-    _swiperController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -43,18 +44,23 @@ class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
   }
 
   void _handleSwipeLeft() {
+    print('SwipeablePropertyStack: Swipe left handled');
     _onSwipe(SwipeDirection.left);
     _moveToNext();
   }
 
   void _handleSwipeRight() {
+    print('SwipeablePropertyStack: Swipe right handled');
     _onSwipe(SwipeDirection.right);
     _moveToNext();
   }
 
   void _moveToNext() {
     if (_currentIndex < widget.properties.length - 1) {
-      _swiperController.next();
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
     }
   }
 
@@ -65,23 +71,19 @@ class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
     }
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.85,
-      child: Swiper(
-        controller: _swiperController,
-        itemCount: widget.properties.length,
-        onIndexChanged: (index) {
+      height: MediaQuery.of(context).size.height,
+      child: PageView.builder(
+        controller: _pageController,
+        onPageChanged: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        onTap: (index) {
-          if (widget.onTap != null) {
-            widget.onTap!(widget.properties[index]);
-          }
-        },
+        itemCount: widget.properties.length,
         itemBuilder: (context, index) {
           return PropertyCard(
             property: widget.properties[index],
+            isBuyer: widget.isBuyer, // Pass user type to PropertyCard
             onTap: () {
               if (widget.onTap != null) {
                 widget.onTap!(widget.properties[index]);
@@ -91,11 +93,8 @@ class _SwipeablePropertyStackState extends State<SwipeablePropertyStack> {
             onSwipeRight: _handleSwipeRight,
           );
         },
-        scrollDirection: Axis.horizontal,
-        loop: false,
-        scale: 0.95,
-        viewportFraction: 0.95,
-        physics: const BouncingScrollPhysics(),
+        // Disable PageView's built-in swipe detection
+        physics: const NeverScrollableScrollPhysics(),
       ),
     );
   }

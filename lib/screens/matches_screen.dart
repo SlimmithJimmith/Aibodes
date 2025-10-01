@@ -11,17 +11,19 @@ class MatchesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
           'Matches',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
+            color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Consumer<AppProvider>(
         builder: (context, appProvider, child) {
@@ -79,13 +81,17 @@ class MatchesScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: const Color(0xFF00BFFF).withOpacity(0.3),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            color: const Color(0xFF00BFFF).withOpacity(0.1),
+            blurRadius: 15,
+            spreadRadius: 1,
           ),
         ],
       ),
@@ -133,6 +139,7 @@ class MatchesScreen extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -142,16 +149,16 @@ class MatchesScreen extends StatelessWidget {
                           property.location,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.grey[600],
+                            color: Colors.white70,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           '\$${_formatPrice(property.price)}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue[700],
+                            color: Color(0xFF00BFFF),
                           ),
                         ),
                       ],
@@ -160,18 +167,22 @@ class MatchesScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.1),
+                      color: const Color(0xFF00BFFF).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: const Color(0xFF00BFFF).withOpacity(0.3),
+                        width: 1,
+                      ),
                     ),
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.favorite, color: Colors.red, size: 16),
+                        Icon(Icons.favorite, color: Color(0xFF00BFFF), size: 16),
                         SizedBox(width: 4),
                         Text(
                           'Liked',
                           style: TextStyle(
-                            color: Colors.red,
+                            color: Color(0xFF00BFFF),
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),

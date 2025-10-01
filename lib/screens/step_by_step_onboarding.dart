@@ -40,7 +40,9 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
   int _currentStep = 0;
   final _formData = <String, dynamic>{};
   final _textController = TextEditingController();
+  final FocusNode _fieldFocus = FocusNode();
   final _formKey = GlobalKey<FormState>();
+  double _sliderValue = 0.0;
 
   // Define steps for buyer and seller
   late List<OnboardingStep> _steps;
@@ -51,6 +53,12 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
     
     _initializeAnimations();
     _initializeSteps();
+    
+    // Initialize slider value for first step if it's a slider
+    if (_steps.isNotEmpty && _steps[0].isSlider) {
+      _sliderValue = _steps[0].initialValue ?? _steps[0].minValue ?? 0.0;
+    }
+    
     _startAnimations();
     
     // Add listener to text controller to update button state
@@ -193,17 +201,11 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           subtitle: "This helps us find properties in your budget",
           fieldName: "income",
           displayName: "annual income",
-          inputType: TextInputType.number,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your income';
-            }
-            final income = int.tryParse(value);
-            if (income == null || income < 0) {
-              return 'Please enter a valid income';
-            }
-            return null;
-          },
+          isSlider: true,
+          minValue: 20000,
+          maxValue: 500000,
+          initialValue: 75000,
+          unit: "per year",
         ),
         OnboardingStep(
           title: "What do you do for work?",
@@ -312,17 +314,11 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           subtitle: "How much are you looking to sell for?",
           fieldName: "askingPrice",
           displayName: "asking price",
-          inputType: TextInputType.number,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your asking price';
-            }
-            final price = int.tryParse(value);
-            if (price == null || price < 0 || price > 1000000000) {
-              return 'Please enter a valid price';
-            }
-            return null;
-          },
+          isSlider: true,
+          minValue: 50000,
+          maxValue: 2000000,
+          initialValue: 400000,
+          unit: "",
         ),
         OnboardingStep(
           title: "Tell us about your property",
@@ -350,6 +346,7 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
 
   @override
   void dispose() {
+    _fieldFocus.dispose();
     _fadeController.dispose();
     _slideController.dispose();
     _scaleController.dispose();
@@ -510,6 +507,8 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
   Widget _buildInputField(OnboardingStep step) {
     if (step.isDropdown) {
       return _buildDropdownField(step);
+    } else if (step.isSlider) {
+      return _buildSliderField(step);
     } else {
       return _buildTextField(step);
     }
@@ -545,8 +544,20 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
           ],
         ),
         child: TextFormField(
+          key: ValueKey(step.fieldName), // force rebuild per step to update keyboard
           controller: _textController,
+          focusNode: _fieldFocus,
           keyboardType: step.inputType,
+          textCapitalization: step.inputType == TextInputType.emailAddress
+              ? TextCapitalization.none
+              : (step.inputType == TextInputType.name ? TextCapitalization.words : TextCapitalization.none),
+          autocorrect: step.inputType == TextInputType.emailAddress ? false : true,
+          enableSuggestions: step.inputType == TextInputType.emailAddress ? false : true,
+          autofillHints: step.inputType == TextInputType.emailAddress
+              ? const [AutofillHints.email]
+              : (step.inputType == TextInputType.phone
+                  ? const [AutofillHints.telephoneNumber]
+                  : null),
           maxLines: step.inputType == TextInputType.multiline ? 4 : 1,
           validator: step.validator,
           style: GoogleFonts.quicksand(
@@ -575,6 +586,158 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
         ),
       ),
     );
+  }
+
+  Widget _buildSliderField(OnboardingStep step) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: (widget.isBuyer 
+              ? const Color(0xFF00BFFF) 
+              : const Color(0xFF00FF7F)).withOpacity(0.3),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: (widget.isBuyer 
+                ? const Color(0xFF00BFFF) 
+                : const Color(0xFF00FF7F)).withOpacity(0.3),
+            blurRadius: 15,
+            spreadRadius: 2,
+          ),
+          BoxShadow(
+            color: (widget.isBuyer 
+                ? const Color(0xFF00BFFF) 
+                : const Color(0xFF00FF7F)).withOpacity(0.1),
+            blurRadius: 25,
+            spreadRadius: 4,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Animated value display
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            decoration: BoxDecoration(
+              color: (widget.isBuyer 
+                  ? const Color(0xFF00BFFF) 
+                  : const Color(0xFF00FF7F)).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: (widget.isBuyer 
+                    ? const Color(0xFF00BFFF) 
+                    : const Color(0xFF00FF7F)).withOpacity(0.3),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '\$',
+                  style: GoogleFonts.quicksand(
+                    color: (widget.isBuyer 
+                        ? const Color(0xFF00BFFF) 
+                        : const Color(0xFF00FF7F)),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 200),
+                  style: GoogleFonts.quicksand(
+                    color: (widget.isBuyer 
+                        ? const Color(0xFF00BFFF) 
+                        : const Color(0xFF00FF7F)),
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  child: Text(
+                    _formatSliderValue(_sliderValue),
+                  ),
+                ),
+                if (step.unit != null && step.unit!.isNotEmpty)
+                  Text(
+                    ' ${step.unit}',
+                    style: GoogleFonts.quicksand(
+                      color: Colors.white70,
+                      fontSize: 16,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          
+          const SizedBox(height: 30),
+          
+          // Slider
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              activeTrackColor: widget.isBuyer 
+                  ? const Color(0xFF00BFFF) 
+                  : const Color(0xFF00FF7F),
+              inactiveTrackColor: Colors.white.withOpacity(0.2),
+              thumbColor: widget.isBuyer 
+                  ? const Color(0xFF00BFFF) 
+                  : const Color(0xFF00FF7F),
+              overlayColor: (widget.isBuyer 
+                  ? const Color(0xFF00BFFF) 
+                  : const Color(0xFF00FF7F)).withOpacity(0.2),
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 15),
+              overlayShape: const RoundSliderOverlayShape(overlayRadius: 25),
+              trackHeight: 6,
+            ),
+            child: Slider(
+              value: _sliderValue,
+              min: step.minValue ?? 0.0,
+              max: step.maxValue ?? 1000000.0,
+              divisions: 100,
+              onChanged: (value) {
+                setState(() {
+                  _sliderValue = value;
+                });
+              },
+            ),
+          ),
+          
+          const SizedBox(height: 20),
+          
+          // Min/Max labels
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '\$${_formatSliderValue(step.minValue ?? 0.0)}',
+                style: GoogleFonts.quicksand(
+                  color: Colors.white60,
+                  fontSize: 14,
+                ),
+              ),
+              Text(
+                '\$${_formatSliderValue(step.maxValue ?? 1000000.0)}',
+                style: GoogleFonts.quicksand(
+                  color: Colors.white60,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _formatSliderValue(double value) {
+    if (value >= 1000000) {
+      return '${(value / 1000000).toStringAsFixed(1)}M';
+    } else if (value >= 1000) {
+      return '${(value / 1000).toStringAsFixed(0)}K';
+    } else {
+      return value.toInt().toString();
+    }
   }
 
   Widget _buildDropdownField(OnboardingStep step) {
@@ -653,15 +816,18 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
     final isLastStep = _currentStep == _steps.length - 1;
     final currentStepData = _steps[_currentStep];
     
-    // Check if we can continue based on the current step type
-    bool canContinue = false;
-    if (currentStepData.isDropdown) {
-      canContinue = _formData[currentStepData.fieldName] != null &&
-                   _formData[currentStepData.fieldName].toString().isNotEmpty;
-    } else {
-      // For text fields, check if the text controller has content
-      canContinue = _textController.text.trim().isNotEmpty;
-    }
+      // Check if we can continue based on the current step type
+      bool canContinue = false;
+      if (currentStepData.isDropdown) {
+        canContinue = _formData[currentStepData.fieldName] != null &&
+                     _formData[currentStepData.fieldName].toString().isNotEmpty;
+      } else if (currentStepData.isSlider) {
+        // For sliders, always allow continue (slider always has a value)
+        canContinue = true;
+      } else {
+        // For text fields, check if the text controller has content
+        canContinue = _textController.text.trim().isNotEmpty;
+      }
     
     return Container(
       width: double.infinity,
@@ -725,6 +891,9 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
         );
         return;
       }
+    } else if (currentStepData.isSlider) {
+      // Save the slider value
+      _formData[currentStepData.fieldName] = _sliderValue.toInt().toString();
     } else {
       if (!_formKey.currentState!.validate()) {
         return;
@@ -745,6 +914,12 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
     setState(() {
       _currentStep++;
       _textController.clear();
+      
+      // Initialize slider value for the next step
+      final nextStepData = _steps[_currentStep];
+      if (nextStepData.isSlider) {
+        _sliderValue = nextStepData.initialValue ?? nextStepData.minValue ?? 0.0;
+      }
     });
     
     // Reset animations
@@ -754,6 +929,13 @@ class _StepByStepOnboardingState extends State<StepByStepOnboarding>
     
     // Start new animations
     _startAnimations();
+
+    // Ensure the new field gets focus and iOS reloads the keyboard layout
+    Future.microtask(() {
+      if (mounted) {
+        _fieldFocus.requestFocus();
+      }
+    });
   }
 
   void _goBack() {
@@ -838,6 +1020,11 @@ class OnboardingStep {
   final String? Function(String?)? validator;
   final bool isDropdown;
   final List<String>? dropdownOptions;
+  final bool isSlider;
+  final double? minValue;
+  final double? maxValue;
+  final double? initialValue;
+  final String? unit;
 
   OnboardingStep({
     required this.title,
@@ -848,5 +1035,10 @@ class OnboardingStep {
     this.validator,
     this.isDropdown = false,
     this.dropdownOptions,
+    this.isSlider = false,
+    this.minValue,
+    this.maxValue,
+    this.initialValue,
+    this.unit,
   });
 }
